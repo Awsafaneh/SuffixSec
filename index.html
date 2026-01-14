@@ -1096,7 +1096,11 @@
                         <small class="small-text">Get your ID from @userinfobot on Telegram</small>
                     </div>
 
-                    <!-- Open Registration: No Activation Key Required -->
+                    <div class="form-group">
+                        <label for="signupActivationKey" class="form-label">Activation Key</label>
+                        <input type="text" id="signupActivationKey" class="form-input"
+                            placeholder="Enter key (optional)">
+                    </div>
 
                     <div class="form-group">
                         <label for="signupPassword" class="form-label">Password</label>
@@ -1293,7 +1297,7 @@
 
     <script>
         // API Configuration
-        const API_URL = `${window.location.origin}/api`;
+        const API_URL = '/api';
         const BOT_USERNAME = 'suffix_cs_bot';
 
         // Page Navigation
@@ -1344,7 +1348,7 @@
             const email = document.getElementById('signupEmail').value;
             const telegramId = document.getElementById('signupTelegramId').value;
             // Open Registration
-            const activationKey = "";
+            const activationKey = document.getElementById('signupActivationKey').value;
             const password = document.getElementById('signupPassword').value;
             const confirmPassword = document.getElementById('signupConfirmPassword').value;
 
