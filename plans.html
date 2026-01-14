@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Choose the perfect security plan for your needs">
+    <title>Pricing Plans - SuffixSec</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .pricing-section {
+            padding: 80px 0;
+            min-height: calc(100vh - 200px);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 44px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: linear-gradient(135deg, var(--bg-card), rgba(26, 26, 46, 0.5));
+            padding: 40px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            position: relative;
+            transition: var(--transition);
+            animation: fadeIn 1s ease;
+        }
+
+        .pricing-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(16, 185, 129, 0.15);
+        }
+
+        .pricing-card.featured {
+            border: 2px solid var(--primary);
+            transform: scale(1.05);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .pricing-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .pricing-amount {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .pricing-period {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 400;
+            text-align: center;
+            display: block;
+            margin-bottom: 30px;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .pricing-features li {
+            padding: 12px 0;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+            font-size: 15px;
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features li::before {
+            content: "✓ ";
+            color: var(--primary);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .comparison-table {
+            margin-top: 80px;
+            overflow-x: auto;
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table th {
+            background: rgba(16, 185, 129, 0.1);
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .comparison-table td:first-child {
+            font-weight: 600;
+        }
+
+        .check-mark {
+            color: var(--success);
+            font-size: 20px;
+        }
+
+        .cross-mark {
+            color: var(--text-secondary);
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon">🔐</span>
+                    <span class="logo-text">SuffixSec</span>
+                </a>
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="index.html#features" class="nav-link">Features</a>
+                    <a href="plans.html" class="nav-link">Pricing</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </nav>
+                <div class="header-actions">
+                    <a href="login.html" class="btn-secondary">Sign In</a>
+                    <a href="signup.html" class="btn-primary">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section">
+        <div class="container">
+            <div class="section-header">
+                <h1 class="section-title">Simple, Transparent <span class="gradient-text">Pricing</span></h1>
+                <p class="section-subtitle">Choose the perfect plan for your security needs. All plans include core
+                    features.</p>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- Starter Plan -->
+                <div class="pricing-card">
+                    <h3 class="pricing-title">Starter</h3>
+                    <div class="pricing-amount">$29<span class="pricing-period">/month</span></div>
+                    <ul class="pricing-features">
+                        <li>Up to 5 projects</li>
+                        <li>Basic vulnerability scanning</li>
+                        <li>Weekly security reports</li>
+                        <li>Email support</li>
+                        <li>Community access</li>
+                        <li>Basic API access</li>
+                    </ul>
+                    <a href="signup.html" class="btn-secondary btn-block">Get Started</a>
+                </div>
+
+                <!-- Professional Plan -->
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">Most Popular</div>
+                    <h3 class="pricing-title">Professional</h3>
+                    <div class="pricing-amount">$99<span class="pricing-period">/month</span></div>
+                    <ul class="pricing-features">
+                        <li>Unlimited projects</li>
+                        <li>Advanced AI-powered scanning</li>
+                        <li>Real-time security alerts</li>
+                        <li>Priority support (24/7)</li>
+                        <li>Full API access</li>
+                        <li>Telegram bot integration</li>
+                        <li>Custom security policies</li>
+                        <li>Detailed PDF reports</li>
+                    </ul>
+                    <a href="signup.html" class="btn-primary btn-block">Start Free Trial</a>
+                </div>
+
+                <!-- Enterprise Plan -->
+                <div class="pricing-card">
+                    <h3 class="pricing-title">Enterprise</h3>
+                    <div class="pricing-amount">Custom</div>
+                    <ul class="pricing-features">
+                        <li>Custom deployment options</li>
+                        <li>Dedicated security team</li>
+                        <li>24/7 premium support</li>
+                        <li>SLA guarantee</li>
+                        <li>On-premise installation</li>
+                        <li>Custom integrations</li>
+                        <li>Security training included</li>
+                        <li>Compliance assistance</li>
+                    </ul>
+                    <a href="contact.html" class="btn-secondary btn-block">Contact Sales</a>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="comparison-table">
+                <h2 style="text-align: center; margin-bottom: 30px; font-size: 32px;">Feature Comparison</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Starter</th>
+                            <th>Professional</th>
+                            <th>Enterprise</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Number of Projects</td>
+                            <td>Up to 5</td>
+                            <td>Unlimited</td>
+                            <td>Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td>Vulnerability Scanning</td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>AI-Powered Detection</td>
+                            <td><span class="cross-mark">✗</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>Real-time Alerts</td>
+                            <td><span class="cross-mark">✗</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>Telegram Bot</td>
+                            <td><span class="cross-mark">✗</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>API Access</td>
+                            <td>Basic</td>
+                            <td>Full</td>
+                            <td>Full + Custom</td>
+                        </tr>
+                        <tr>
+                            <td>Support</td>
+                            <td>Email</td>
+                            <td>24/7 Priority</td>
+                            <td>Dedicated Team</td>
+                        </tr>
+                        <tr>
+                            <td>Custom Deployment</td>
+                            <td><span class="cross-mark">✗</span></td>
+                            <td><span class="cross-mark">✗</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>SLA Guarantee</td>
+                            <td><span class="cross-mark">✗</span></td>
+                            <td><span class="cross-mark">✗</span></td>
+                            <td><span class="check-mark">✓</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4 class="footer-title">SuffixSec</h4>
+                    <p class="footer-description">Advanced vulnerability detection platform powered by AI</p>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="plans.html">Pricing</a></li>
+                        <li><a href="#">Security</a></li>
+                        <li><a href="#">Docs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 SuffixSec. All rights reserved.</p>
+                <div>
+                    <a href="#" style="color: var(--text-secondary); text-decoration: none; margin: 0 15px;">Privacy
+                        Policy</a>
+                    <a href="#" style="color: var(--text-secondary); text-decoration: none; margin: 0 15px;">Terms of
+                        Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
