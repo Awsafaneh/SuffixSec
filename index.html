@@ -1,773 +1,957 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Harness the power of AI to detect zero-day vulnerabilities, simulate sophisticated attacks, and protect your source code with enterprise-grade security.">
+    <meta name="description"
+        content="Harness the power of AI to detect zero-day vulnerabilities, simulate sophisticated attacks, and protect your source code with enterprise-grade security.">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="SuffixSec">
     <meta name="theme-color" content="#0f0f1e">
     <title>SuffixSec - Advanced Vulnerability Detection Platform</title>
+    <link rel="manifest" href="manifest.json">
     <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-:root {
-  --bg-dark: #0f0f1e;
-  --bg-darker: #0a0a14;
-  --bg-card: #1a1a2e;
-  --primary: #10b981;
-  --primary-dark: #059669;
-  --accent: #06b6d4;
-  --accent-light: #22d3ee;
-  --text-primary: #e0e0e0;
-  --text-secondary: #a0a0b0;
-  --border: #2a2a3e;
-  --danger: #ef4444;
-  --warning: #f59e0b;
-  --success: #10b981;
-  --radius: 12px;
-  --shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  --transition: all 0.3s ease;
-}
-
-html, body {
-  width: 100%;
-  height: 100%;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", sans-serif;
-  background-color: var(--bg-dark);
-  color: var(--text-primary);
-  line-height: 1.6;
-}
-
-body {
-  overflow-x: hidden;
-}
-
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideInRight {
-  from { opacity: 0; transform: translateX(20px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-@keyframes glow {
-  0%, 100% { text-shadow: 0 0 20px rgba(16, 185, 129, 0.5); }
-  50% { text-shadow: 0 0 40px rgba(16, 185, 129, 0.8); }
-}
-
-/* Header & Navigation */
-.header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: linear-gradient(135deg, rgba(15, 15, 30, 0.95), rgba(26, 26, 46, 0.95));
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--border);
-  padding: 20px 0;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 24px;
-  font-weight: 700;
-  text-decoration: none;
-  color: var(--text-primary);
-  animation: slideInRight 0.6s ease;
-}
-
-.logo-icon {
-  font-size: 28px;
-  animation: float 3s ease-in-out infinite;
-}
-
-.logo-text {
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.nav-menu {
-  display: flex;
-  gap: 40px;
-  align-items: center;
-}
-
-.nav-link {
-  color: var(--text-secondary);
-  text-decoration: none;
-  font-size: 15px;
-  font-weight: 500;
-  transition: var(--transition);
-  position: relative;
-  cursor: pointer;
-}
-
-.nav-link:hover {
-  color: var(--primary);
-}
-
-.nav-link::after {
-  content: "";
-  position: absolute;
-  bottom: -5px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--primary);
-  transition: var(--transition);
-}
-
-.nav-link:hover::after {
-  width: 100%;
-}
-
-.header-actions {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-}
-
-/* Buttons */
-.btn-primary, .btn-secondary, .btn-danger {
-  padding: 12px 28px;
-  border: none;
-  border-radius: var(--radius);
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  color: white;
-  box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2);
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 40px rgba(16, 185, 129, 0.3);
-}
-
-.btn-primary:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.btn-secondary {
-  background: transparent;
-  color: var(--text-primary);
-  border: 2px solid var(--border);
-}
-
-.btn-secondary:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-}
-
-.btn-danger {
-  background: var(--danger);
-  color: white;
-}
-
-.btn-danger:hover {
-  background: #dc2626;
-}
-
-.btn-block {
-  width: 100%;
-}
-
-.play-icon {
-  font-size: 12px;
-}
-
-/* Hero Section */
-.hero {
-  padding: 100px 0;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero::before {
-  content: "";
-  position: absolute;
-  top: -50%;
-  right: -10%;
-  width: 800px;
-  height: 800px;
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
-  animation: float 20s ease-in-out infinite;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 1;
-  animation: fadeIn 1s ease;
-}
-
-.hero-title {
-  font-size: 60px;
-  font-weight: 800;
-  margin-bottom: 20px;
-  line-height: 1.1;
-}
-
-.gradient-text {
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: glow 2s ease-in-out infinite;
-}
-
-.hero-description {
-  font-size: 18px;
-  color: var(--text-secondary);
-  max-width: 700px;
-  margin: 0 auto 40px;
-  line-height: 1.8;
-}
-
-.highlight-text {
-  color: var(--primary);
-  font-weight: 600;
-}
-
-.hero-buttons {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-/* Stats Section */
-.stats {
-  padding: 80px 0;
-  background: linear-gradient(180deg, transparent, rgba(16, 185, 129, 0.05));
-}
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
-}
-
-.stat-card {
-  background: linear-gradient(135deg, var(--bg-card), rgba(26, 26, 46, 0.5));
-  padding: 30px;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  text-align: center;
-  transition: var(--transition);
-  animation: fadeIn 0.8s ease;
-}
-
-.stat-card:hover {
-  border-color: var(--primary);
-  transform: translateY(-5px);
-  box-shadow: 0 20px 50px rgba(16, 185, 129, 0.1);
-}
-
-.stat-icon {
-  font-size: 40px;
-  margin-bottom: 15px;
-  animation: float 3s ease-in-out infinite;
-}
-
-.stat-number {
-  font-size: 36px;
-  font-weight: 700;
-  color: var(--primary);
-  margin-bottom: 10px;
-}
-
-.stat-label {
-  color: var(--text-secondary);
-  font-size: 14px;
-}
-
-/* Features Section */
-.features {
-  padding: 100px 0;
-}
-
-.section-title {
-  font-size: 44px;
-  font-weight: 800;
-  text-align: center;
-  margin-bottom: 60px;
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-}
-
-.feature-card {
-  background: linear-gradient(135deg, var(--bg-card), rgba(26, 26, 46, 0.5));
-  padding: 40px;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  transition: var(--transition);
-  animation: fadeIn 1s ease;
-}
-
-.feature-card:hover {
-  border-color: var(--primary);
-  transform: translateY(-10px);
-  box-shadow: 0 30px 60px rgba(16, 185, 129, 0.15);
-}
-
-.feature-icon {
-  font-size: 48px;
-  margin-bottom: 20px;
-  display: inline-block;
-}
-
-.feature-title {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 15px;
-}
-
-.feature-description {
-  color: var(--text-secondary);
-  font-size: 15px;
-  line-height: 1.6;
-}
-
-/* Pricing Section */
-.pricing {
-  padding: 100px 0;
-  background: linear-gradient(180deg, rgba(16, 185, 129, 0.05), transparent);
-}
-
-.pricing-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.pricing-card {
-  background: linear-gradient(135deg, var(--bg-card), rgba(26, 26, 46, 0.5));
-  padding: 40px;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  position: relative;
-  transition: var(--transition);
-  animation: fadeIn 1s ease;
-}
-
-.pricing-card:hover {
-  border-color: var(--primary);
-  transform: translateY(-10px);
-  box-shadow: 0 30px 60px rgba(16, 185, 129, 0.15);
-}
-
-.pricing-card.featured {
-  border: 2px solid var(--primary);
-  transform: scale(1.05);
-}
-
-.badge {
-  position: absolute;
-  top: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  color: white;
-  padding: 5px 15px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.pricing-title {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 15px;
-}
-
-.pricing-amount {
-  font-size: 42px;
-  font-weight: 800;
-  color: var(--primary);
-  margin-bottom: 5px;
-}
-
-.pricing-period {
-  font-size: 16px;
-  color: var(--text-secondary);
-  font-weight: 400;
-}
-
-.pricing-features {
-  list-style: none;
-  margin: 30px 0;
-}
-
-.pricing-features li {
-  padding: 12px 0;
-  color: var(--text-secondary);
-  border-bottom: 1px solid var(--border);
-  font-size: 15px;
-}
-
-.pricing-features li:last-child {
-  border-bottom: none;
-}
-
-/* Contact Section */
-.contact {
-  padding: 100px 0;
-  background: linear-gradient(180deg, transparent, rgba(16, 185, 129, 0.05));
-}
-
-.contact-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.contact-info {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-
-.contact-item {
-  display: flex;
-  gap: 20px;
-}
-
-.contact-icon {
-  font-size: 32px;
-  min-width: 50px;
-}
-
-.contact-details h4 {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-
-.contact-details p {
-  color: var(--text-secondary);
-}
-
-.social-links {
-  display: flex;
-  gap: 15px;
-  margin-top: 10px;
-}
-
-.social-link {
-  color: var(--text-secondary);
-  text-decoration: none;
-  font-size: 14px;
-  transition: var(--transition);
-  padding: 8px 15px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-}
-
-.social-link:hover {
-  color: var(--primary);
-  border-color: var(--primary);
-}
-
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.contact-form input, .contact-form textarea {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 15px;
-  color: var(--text-primary);
-  font-family: inherit;
-  font-size: 15px;
-  transition: var(--transition);
-}
-
-.contact-form input:focus, .contact-form textarea:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-}
-
-/* Footer */
-.footer {
-  background: var(--bg-darker);
-  border-top: 1px solid var(--border);
-  padding: 60px 0 30px;
-  margin-top: 100px;
-}
-
-.footer-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 40px;
-  margin-bottom: 40px;
-}
-
-.footer-section {
-  animation: fadeIn 1s ease;
-}
-
-.footer-title {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 15px;
-}
-
-.footer-description {
-  color: var(--text-secondary);
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-.footer-links {
-  list-style: none;
-}
-
-.footer-links li {
-  margin-bottom: 10px;
-}
-
-.footer-links a {
-  color: var(--text-secondary);
-  text-decoration: none;
-  font-size: 14px;
-  transition: var(--transition);
-}
-
-.footer-links a:hover {
-  color: var(--primary);
-}
-
-.footer-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 30px;
-  border-top: 1px solid var(--border);
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.footer-bottom p {
-  color: var(--text-secondary);
-  font-size: 14px;
-}
-
-.footer-bottom-links {
-  display: flex;
-  gap: 30px;
-}
-
-.footer-bottom-links a {
-  color: var(--text-secondary);
-  text-decoration: none;
-  font-size: 14px;
-  transition: var(--transition);
-}
-
-.footer-bottom-links a:hover {
-  color: var(--primary);
-}
-
-/* Auth Pages */
-.auth-page { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: var(--bg-dark); }
-.auth-container { display: grid; grid-template-columns: 1fr 1fr; width: 100%; height: 100vh; position: relative; }
-.auth-form-wrapper { display: flex; flex-direction: column; justify-content: center; padding: 60px 40px; max-width: 500px; z-index: 2; }
-.auth-background { background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.1)); display: none; }
-.auth-header { text-align: center; margin-bottom: 50px; }
-.auth-title { font-size: 32px; font-weight: 800; margin-top: 20px; margin-bottom: 10px; }
-.auth-subtitle { color: var(--text-secondary); font-size: 15px; }
-.auth-form { display: flex; flex-direction: column; gap: 20px; margin-bottom: 30px; }
-.form-group { display: flex; flex-direction: column; gap: 8px; }
-.form-label { font-size: 14px; font-weight: 600; color: var(--text-primary); }
-.form-input { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 16px; color: var(--text-primary); font-size: 15px; transition: var(--transition); font-family: inherit; }
-.form-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1); }
-.form-remember { display: flex; align-items: center; gap: 8px; font-size: 14px; }
-.checkbox { width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary); }
-.checkbox-label { cursor: pointer; color: var(--text-secondary); }
-.form-agree { display: flex; align-items: flex-start; gap: 8px; font-size: 14px; color: var(--text-secondary); }
-.auth-divider { text-align: center; color: var(--text-secondary); font-size: 14px; margin: 30px 0; }
-.auth-footer { text-align: center; }
-.auth-footer-link { color: var(--primary); text-decoration: none; font-size: 14px; font-weight: 600; transition: var(--transition); cursor: pointer; }
-.auth-footer-link:hover { color: var(--accent); }
-
-/* Dashboard */
-.dashboard-page { display: flex; height: 100vh; overflow: hidden; }
-.dashboard-container { display: flex; width: 100%; height: 100%; }
-.sidebar { width: 280px; background: linear-gradient(180deg, var(--bg-darker), var(--bg-card)); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow-y: auto; animation: slideInRight 0.5s ease; }
-.sidebar-header { padding: 25px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-.sidebar-close { display: none; background: none; border: none; color: var(--text-primary); font-size: 24px; cursor: pointer; }
-.sidebar-nav { flex: 1; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
-.nav-item { display: flex; align-items: center; gap: 15px; padding: 12px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 8px; transition: var(--transition); cursor: pointer; font-size: 15px; border: none; background: none; width: 100%; text-align: left; }
-.nav-item:hover { background: rgba(16, 185, 129, 0.1); color: var(--primary); }
-.nav-item.active { background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 182, 212, 0.1)); color: var(--primary); border-left: 3px solid var(--primary); }
-.nav-icon { font-size: 20px; min-width: 24px; }
-.nav-label { flex: 1; }
-.sidebar-footer { padding: 20px; border-top: 1px solid var(--border); }
-.dashboard-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-.sidebar-toggle { display: none; background: none; border: none; color: var(--text-primary); font-size: 24px; cursor: pointer; margin-right: 15px; }
-.dashboard-topbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 30px; background: linear-gradient(135deg, rgba(15, 15, 30, 0.95), rgba(26, 26, 46, 0.95)); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
-.topbar-left { display: flex; align-items: center; gap: 20px; }
-.page-title { font-size: 24px; font-weight: 700; }
-.topbar-right { display: flex; align-items: center; }
-.user-profile { display: flex; align-items: center; gap: 12px; cursor: pointer; position: relative; padding: 8px 16px; border-radius: 8px; transition: var(--transition); }
-.user-profile:hover { background: rgba(16, 185, 129, 0.1); }
-.avatar, .avatar-large { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); display: flex; align-items: center; justify-content: center; font-size: 20px; }
-.avatar-large { width: 100px; height: 100px; font-size: 40px; margin-bottom: 20px; }
-.user-name { font-size: 15px; font-weight: 600; }
-.dropdown-menu { position: absolute; top: 100%; right: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); min-width: 200px; display: none; flex-direction: column; margin-top: 10px; box-shadow: var(--shadow); z-index: 10; }
-.dropdown-menu.show { display: flex; }
-.dropdown-menu a { padding: 12px 16px; color: var(--text-secondary); text-decoration: none; font-size: 14px; transition: var(--transition); border-bottom: 1px solid var(--border); cursor: pointer; }
-.dropdown-menu a:hover { background: rgba(16, 185, 129, 0.1); color: var(--primary); }
-.dropdown-menu a:last-child { border-bottom: none; }
-.logout-link { color: var(--danger); }
-.dashboard-content { flex: 1; overflow-y: auto; padding: 30px; }
-.page-content { display: none; animation: fadeIn 0.3s ease; }
-.page-content.active { display: block; }
-.page-header { margin-bottom: 40px; }
-.page-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 10px; }
-.page-header p { color: var(--text-secondary); }
-.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px; }
-.stat-box { background: linear-gradient(135deg, var(--bg-card), rgba(26, 26, 46, 0.5)); padding: 20px; border-radius: var(--radius); border: 1px solid var(--border); }
-.stat-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-.stat-label { font-size: 14px; color: var(--text-secondary); }
-.stat-icon { font-size: 24px; animation: float 3s ease-in-out infinite; }
-.stat-value { font-size: 32px; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
-.stat-change { font-size: 13px; color: var(--text-secondary); }
-.stat-change.positive { color: var(--success); }
-.recent-scans { margin-top: 40px; }
-.recent-scans h3 { font-size: 18px; font-weight: 700; margin-bottom: 20px; }
-.scans-table { width: 100%; border-collapse: collapse; }
-.scans-table thead { background: rgba(16, 185, 129, 0.05); }
-.scans-table th { padding: 15px; text-align: left; font-weight: 600; color: var(--text-secondary); border-bottom: 1px solid var(--border); }
-.scans-table td { padding: 15px; border-bottom: 1px solid var(--border); }
-.scans-table tbody tr:hover { background: rgba(16, 185, 129, 0.05); }
-.badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; }
-.badge.success { background: rgba(16, 185, 129, 0.2); color: var(--success); }
-.badge.warning { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
-.risks-filter { margin-bottom: 30px; }
-.filter-select { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 15px; color: var(--text-primary); font-size: 14px; cursor: pointer; }
-.risks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-.risk-card { background: linear-gradient(135deg, var(--bg-card), rgba(26, 26, 46, 0.5)); padding: 20px; border-radius: var(--radius); border-left: 4px solid; transition: var(--transition); }
-.risk-card.critical { border-left-color: #ef4444; }
-.risk-card.high { border-left-color: #f59e0b; }
-.risk-card.medium { border-left-color: #eab308; }
-.risk-card.low { border-left-color: var(--primary); }
-.risk-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px; }
-.risk-header h4 { font-size: 16px; font-weight: 700; }
-.risk-severity { font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 4px; }
-.risk-card.critical .risk-severity { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
-.risk-card.high .risk-severity { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
-.risk-card.medium .risk-severity { background: rgba(234, 179, 8, 0.2); color: #eab308; }
-.risk-description { font-size: 14px; color: var(--text-secondary); margin-bottom: 10px; }
-.risk-location { font-size: 12px; color: var(--text-secondary); font-family: monospace; }
-.current-plan { background: linear-gradient(135deg, var(--bg-card), rgba(26, 26, 46, 0.5)); padding: 25px; border-radius: var(--radius); border: 1px solid var(--primary); margin-bottom: 40px; }
-.current-plan h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
-.current-plan p { color: var(--text-secondary); margin-bottom: 15px; }
-.plans-compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-.plan-item { background: linear-gradient(135deg, var(--bg-card), rgba(26, 26, 46, 0.5)); padding: 25px; border-radius: var(--radius); border: 1px solid var(--border); text-align: center; }
-.plan-item.active { border-color: var(--primary); background: linear-gradient(135deg, var(--bg-card), rgba(16, 185, 129, 0.1)); }
-.plan-item h4 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
-.plan-price { font-size: 24px; font-weight: 800; color: var(--primary); margin-bottom: 15px; }
-.plan-item ul { list-style: none; text-align: left; margin-bottom: 20px; }
-.plan-item li { padding: 8px 0; color: var(--text-secondary); font-size: 14px; border-bottom: 1px solid var(--border); }
-.plan-item li:last-child { border-bottom: none; }
-.profile-form { max-width: 600px; }
-.profile-avatar { text-align: center; margin-bottom: 40px; }
-.profile-form .form-group { margin-bottom: 20px; }
-.notifications-list { display: flex; flex-direction: column; gap: 15px; }
-.notification { background: linear-gradient(135deg, var(--bg-card), rgba(26, 26, 46, 0.5)); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; gap: 20px; align-items: flex-start; }
-.notification-icon { font-size: 24px; min-width: 30px; }
-.notification-content { flex: 1; }
-.notification-content h4 { font-size: 16px; font-weight: 700; margin-bottom: 5px; }
-.notification-content p { color: var(--text-secondary); font-size: 14px; margin-bottom: 5px; }
-.notification-time { font-size: 12px; color: var(--text-secondary); }
-.notification-dismiss { background: none; border: none; color: var(--text-secondary); font-size: 20px; cursor: pointer; transition: var(--transition); }
-.notification-dismiss:hover { color: var(--primary); }
-.settings-section { margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid var(--border); }
-.settings-section h3 { font-size: 18px; font-weight: 700; margin-bottom: 20px; }
-.settings-section.danger { border-bottom: none; border-top: 2px solid var(--danger); padding-top: 40px; }
-.setting-item { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: linear-gradient(135deg, var(--bg-card), rgba(26, 26, 46, 0.5)); border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 15px; }
-.setting-info h4 { font-size: 16px; font-weight: 700; margin-bottom: 5px; }
-.setting-info p { color: var(--text-secondary); font-size: 14px; }
-.setting-toggle { display: flex; align-items: center; gap: 15px; padding: 15px 0; cursor: pointer; }
-.setting-toggle input { width: 20px; height: 20px; cursor: pointer; accent-color: var(--primary); }
-.toggle-label { cursor: pointer; color: var(--text-secondary); }
-
-/* Responsive */
-@media (max-width: 768px) {
-  .nav-menu { display: none; }
-  .sidebar { position: fixed; left: 0; top: 0; height: 100vh; z-index: 1000; transform: translateX(-100%); transition: var(--transition); }
-  .sidebar.active { transform: translateX(0); }
-  .sidebar-close { display: block; }
-  .sidebar-toggle { display: block; }
-  .hero-title { font-size: 36px; }
-  .section-title { font-size: 28px; }
-  .contact-content { grid-template-columns: 1fr; gap: 40px; }
-  .auth-container { grid-template-columns: 1fr; }
-  .auth-background { display: block; }
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0f0f1e;
+            --bg-darker: #0a0a14;
+            --bg-card: #1a1a2e;
+            --primary: #10b981;
+            --primary-dark: #059669;
+            --accent: #06b6d4;
+            --accent-light: #22d3ee;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0b0;
+            --border: #2a2a3e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #10b981;
+            --radius: 12px;
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s ease;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes glow {
+
+            0%,
+            100% {
+                text-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+            }
+
+            50% {
+                text-shadow: 0 0 40px rgba(16, 185, 129, 0.8);
+            }
+        }
+
+        /* Header & Navigation */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(135deg, rgba(15, 15, 30, 0.95), rgba(26, 26, 46, 0.95));
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--text-primary);
+            animation: slideInRight 0.6s ease;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .logo-text {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* Buttons */
+        .btn-primary,
+        .btn-secondary,
+        .btn-danger {
+            padding: 12px 28px;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        .play-icon {
+            font-size: 12px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 1s ease;
+        }
+
+        .hero-title {
+            font-size: 60px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
+
+        .highlight-text {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 80px 0;
+            background: linear-gradient(180deg, transparent, rgba(16, 185, 129, 0.05));
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--bg-card), rgba(26, 26, 46, 0.5));
+            padding: 30px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: var(--transition);
+            animation: fadeIn 0.8s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(16, 185, 129, 0.1);
+        }
+
+        .stat-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* Auth Pages */
+        .auth-page {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: var(--bg-dark);
+        }
+
+        .auth-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+
+        .auth-form-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px 40px;
+            max-width: 500px;
+            z-index: 2;
+        }
+
+        .auth-background {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.1));
+            display: none;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .auth-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .auth-subtitle {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 12px 16px;
+            color: var(--text-primary);
+            font-size: 15px;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .form-remember {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .checkbox-label {
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .form-agree {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .auth-divider {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin: 30px 0;
+        }
+
+        .auth-footer {
+            text-align: center;
+        }
+
+        .auth-footer-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .auth-footer-link:hover {
+            color: var(--accent);
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .success-message {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .small-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        /* Dashboard */
+        .dashboard-page {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, var(--bg-darker), var(--bg-card));
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            animation: slideInRight 0.5s ease;
+        }
+
+        .sidebar-header {
+            padding: 25px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-close {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: var(--transition);
+            cursor: pointer;
+            font-size: 15px;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .nav-item:hover {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--primary);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 182, 212, 0.1));
+            color: var(--primary);
+            border-left: 3px solid var(--primary);
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            min-width: 24px;
+        }
+
+        .nav-label {
+            flex: 1;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .dashboard-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .sidebar-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        .dashboard-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background: linear-gradient(135deg, rgba(15, 15, 30, 0.95), rgba(26, 26, 46, 0.95));
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            position: relative;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .user-profile:hover {
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .avatar,
+        .avatar-large {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .avatar-large {
+            width: 100px;
+            height: 100px;
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        .user-name {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            min-width: 200px;
+            display: none;
+            flex-direction: column;
+            margin-top: 10px;
+            box-shadow: var(--shadow);
+            z-index: 10;
+        }
+
+        .dropdown-menu.show {
+            display: flex;
+        }
+
+        .dropdown-menu a {
+            padding: 12px 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: var(--transition);
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+        }
+
+        .dropdown-menu a:hover {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--primary);
+        }
+
+        .dropdown-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .logout-link {
+            color: var(--danger);
+        }
+
+        .dashboard-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        .page-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, var(--bg-card), rgba(26, 26, 46, 0.5));
+            padding: 20px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .stat-icon {
+            font-size: 24px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .stat-change {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .stat-change.positive {
+            color: var(--success);
+        }
+
+        .recent-scans {
+            margin-top: 40px;
+        }
+
+        .recent-scans h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .scans-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .scans-table thead {
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .scans-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .scans-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .scans-table tbody tr:hover {
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge.success {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .badge.warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        .badge.danger {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+
+        .telegram-connect {
+            background: linear-gradient(135deg, #0088cc, #00a0e9);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .telegram-connect:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 136, 204, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                height: 100vh;
+                z-index: 1000;
+                transform: translateX(-100%);
+                transition: var(--transition);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .sidebar-close {
+                display: block;
+            }
+
+            .sidebar-toggle {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 36px;
+            }
+
+            .auth-container {
+                grid-template-columns: 1fr;
+            }
+
+            .auth-background {
+                display: block;
+            }
+        }
     </style>
 </head>
+
 <body id="appBody">
     <!-- Landing Page -->
     <div id="landingPage" class="landing-page">
@@ -800,13 +984,15 @@ body {
                         Platform
                     </h1>
                     <p class="hero-description">
-                        Harness the power of AI to detect zero-day vulnerabilities, simulate sophisticated attacks, and protect your source code with <span class="highlight-text">enterprise-grade security</span> that scales with your business.
+                        Harness the power of AI to detect zero-day vulnerabilities, simulate sophisticated attacks, and
+                        protect your source code with <span class="highlight-text">enterprise-grade security</span>
+                        integrated with Telegram.
                     </p>
                     <div class="hero-buttons">
                         <button class="btn-primary" onclick="switchToPage('signup')">Start Free Trial</button>
-                        <button class="btn-secondary" onclick="toggleDemo()">
-                            <span class="play-icon">▶</span> Watch Demo
-                        </button>
+                        <a href="https://t.me/YOUR_BOT_USERNAME" target="_blank" class="telegram-connect">
+                            <span>📱</span> Connect Telegram Bot
+                        </a>
                     </div>
                 </div>
             </div>
@@ -833,165 +1019,6 @@ body {
                 </div>
             </div>
         </section>
-
-        <section class="features" id="features">
-            <div class="container">
-                <h2 class="section-title">Powerful Security Features</h2>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">🔍</div>
-                        <h3 class="feature-title">AI-Powered Scanning</h3>
-                        <p class="feature-description">Advanced machine learning algorithms detect vulnerabilities that traditional tools miss</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🎯</div>
-                        <h3 class="feature-title">Precise Targeting</h3>
-                        <p class="feature-description">Identify exact lines of code vulnerable to attacks with pinpoint accuracy</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">📊</div>
-                        <h3 class="feature-title">Real-time Reports</h3>
-                        <p class="feature-description">Comprehensive reports with actionable insights delivered instantly</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🚀</div>
-                        <h3 class="feature-title">Fast Deployment</h3>
-                        <p class="feature-description">Integrate with your workflow in minutes, not weeks</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🔗</div>
-                        <h3 class="feature-title">API Integration</h3>
-                        <p class="feature-description">Connect with Telegram bot and other tools seamlessly</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🌐</div>
-                        <h3 class="feature-title">Cloud & On-Premise</h3>
-                        <p class="feature-description">Deploy in the cloud or on your infrastructure</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="pricing" id="pricing">
-            <div class="container">
-                <h2 class="section-title">Simple, Transparent Pricing</h2>
-                <div class="pricing-grid">
-                    <div class="pricing-card">
-                        <h3 class="pricing-title">Starter</h3>
-                        <div class="pricing-amount">$29<span class="pricing-period">/month</span></div>
-                        <ul class="pricing-features">
-                            <li>✓ Up to 5 projects</li>
-                            <li>✓ Basic scanning</li>
-                            <li>✓ Weekly reports</li>
-                            <li>✓ Email support</li>
-                        </ul>
-                        <button class="btn-secondary" onclick="switchToPage('signup')">Get Started</button>
-                    </div>
-                    <div class="pricing-card featured">
-                        <div class="badge">Most Popular</div>
-                        <h3 class="pricing-title">Professional</h3>
-                        <div class="pricing-amount">$99<span class="pricing-period">/month</span></div>
-                        <ul class="pricing-features">
-                            <li>✓ Unlimited projects</li>
-                            <li>✓ Advanced scanning</li>
-                            <li>✓ Real-time alerts</li>
-                            <li>✓ Priority support</li>
-                            <li>✓ API access</li>
-                        </ul>
-                        <button class="btn-primary" onclick="switchToPage('signup')">Start Free Trial</button>
-                    </div>
-                    <div class="pricing-card">
-                        <h3 class="pricing-title">Enterprise</h3>
-                        <div class="pricing-amount">Custom</div>
-                        <ul class="pricing-features">
-                            <li>✓ Custom deployment</li>
-                            <li>✓ Dedicated team</li>
-                            <li>✓ 24/7 support</li>
-                            <li>✓ SLA guarantee</li>
-                            <li>✓ Training included</li>
-                        </ul>
-                        <button class="btn-secondary" onclick="contactSales()">Contact Sales</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="contact" id="contact">
-            <div class="container">
-                <h2 class="section-title">Get in Touch</h2>
-                <div class="contact-content">
-                    <div class="contact-info">
-                        <div class="contact-item">
-                            <div class="contact-icon">📞</div>
-                            <div class="contact-details">
-                                <h4>Phone</h4>
-                                <p>+1 (555) 123-4567</p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">📧</div>
-                            <div class="contact-details">
-                                <h4>Email</h4>
-                                <p>support@suffixsec.com</p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">💬</div>
-                            <div class="contact-details">
-                                <h4>Social Media</h4>
-                                <div class="social-links">
-                                    <a href="#" class="social-link">WhatsApp</a>
-                                    <a href="#" class="social-link">Instagram</a>
-                                    <a href="#" class="social-link">Facebook</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <form class="contact-form" onsubmit="handleContactSubmit(event)">
-                        <input type="text" placeholder="Your Name" required>
-                        <input type="email" placeholder="Your Email" required>
-                        <textarea placeholder="Your Message" rows="5" required></textarea>
-                        <button type="submit" class="btn-primary">Send Message</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-
-        <footer class="footer">
-            <div class="container">
-                <div class="footer-content">
-                    <div class="footer-section">
-                        <h4 class="footer-title">SuffixSec</h4>
-                        <p class="footer-description">Advanced vulnerability detection platform powered by AI</p>
-                    </div>
-                    <div class="footer-section">
-                        <h4 class="footer-title">Product</h4>
-                        <ul class="footer-links">
-                            <li><a onclick="scrollToSection('features')">Features</a></li>
-                            <li><a onclick="scrollToSection('pricing')">Pricing</a></li>
-                            <li><a href="#">Security</a></li>
-                            <li><a href="#">Docs</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-section">
-                        <h4 class="footer-title">Company</h4>
-                        <ul class="footer-links">
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Blog</a></li>
-                            <li><a href="#">Careers</a></li>
-                            <li><a href="#">Contact</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <p>&copy; 2026 SuffixSec. All rights reserved.</p>
-                    <div class="footer-bottom-links">
-                        <a href="#">Privacy Policy</a>
-                        <a href="#">Terms of Service</a>
-                    </div>
-                </div>
-            </div>
-        </footer>
     </div>
 
     <!-- Login Page -->
@@ -1004,23 +1031,17 @@ body {
                         <span class="logo-text">SuffixSec</span>
                     </div>
                     <h1 class="auth-title">Welcome Back</h1>
-                    <p class="auth-subtitle">Sign in to access your security dashboard</p>
+                    <p class="auth-subtitle">Sign in with your Telegram ID</p>
                 </div>
+
+                <div class="error-message" id="loginError"></div>
 
                 <form class="auth-form" onsubmit="handleLogin(event)">
                     <div class="form-group">
-                        <label for="loginEmail" class="form-label">Email Address</label>
-                        <input type="email" id="loginEmail" class="form-input" placeholder="you@example.com" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="loginPassword" class="form-label">Password</label>
-                        <input type="password" id="loginPassword" class="form-input" placeholder="••••••••" required>
-                    </div>
-
-                    <div class="form-remember">
-                        <input type="checkbox" id="rememberMe" class="checkbox">
-                        <label for="rememberMe" class="checkbox-label">Remember me</label>
+                        <label for="loginTelegramId" class="form-label">Telegram User ID</label>
+                        <input type="number" id="loginTelegramId" class="form-input" placeholder="Your Telegram ID"
+                            required>
+                        <small class="small-text">Get your ID from @userinfobot on Telegram</small>
                     </div>
 
                     <button type="submit" class="btn-primary btn-block">Sign In</button>
@@ -1051,8 +1072,11 @@ body {
                         <span class="logo-text">SuffixSec</span>
                     </div>
                     <h1 class="auth-title">Create Account</h1>
-                    <p class="auth-subtitle">Join thousands securing their code with SuffixSec</p>
+                    <p class="auth-subtitle">Join with your Telegram account</p>
                 </div>
+
+                <div class="error-message" id="signupError"></div>
+                <div class="success-message" id="signupSuccess"></div>
 
                 <form class="auth-form" onsubmit="handleSignup(event)">
                     <div class="form-group">
@@ -1066,18 +1090,34 @@ body {
                     </div>
 
                     <div class="form-group">
+                        <label for="signupTelegramId" class="form-label">Telegram User ID</label>
+                        <input type="number" id="signupTelegramId" class="form-input" placeholder="Your Telegram ID"
+                            required>
+                        <small class="small-text">Get your ID from @userinfobot on Telegram</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupActivationKey" class="form-label">Activation Key</label>
+                        <input type="text" id="signupActivationKey" class="form-input"
+                            placeholder="Activation key from admin" required>
+                        <small class="small-text">Contact admin to get your activation key</small>
+                    </div>
+
+                    <div class="form-group">
                         <label for="signupPassword" class="form-label">Password</label>
                         <input type="password" id="signupPassword" class="form-input" placeholder="••••••••" required>
                     </div>
 
                     <div class="form-group">
                         <label for="signupConfirmPassword" class="form-label">Confirm Password</label>
-                        <input type="password" id="signupConfirmPassword" class="form-input" placeholder="••••••••" required>
+                        <input type="password" id="signupConfirmPassword" class="form-input" placeholder="••••••••"
+                            required>
                     </div>
 
                     <div class="form-agree">
                         <input type="checkbox" id="agreeTerms" class="checkbox" required>
-                        <label for="agreeTerms" class="checkbox-label">I agree to Terms of Service and Privacy Policy</label>
+                        <label for="agreeTerms" class="checkbox-label">I agree to Terms of Service and Privacy
+                            Policy</label>
                     </div>
 
                     <button type="submit" class="btn-primary btn-block">Create Account</button>
@@ -1116,25 +1156,17 @@ body {
                         <span class="nav-icon">📊</span>
                         <span class="nav-label">Overview</span>
                     </a>
-                    <a href="#" class="nav-item" onclick="switchPage(event, 'risks')">
+                    <a href="#" class="nav-item" onclick="switchPage(event, 'scans')">
+                        <span class="nav-icon">🔍</span>
+                        <span class="nav-label">My Scans</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="switchPage(event, 'vulnerabilities')">
                         <span class="nav-icon">⚠️</span>
                         <span class="nav-label">Vulnerabilities</span>
                     </a>
-                    <a href="#" class="nav-item" onclick="switchPage(event, 'plans')">
-                        <span class="nav-icon">💳</span>
-                        <span class="nav-label">Plans</span>
-                    </a>
-                    <a href="#" class="nav-item" onclick="switchPage(event, 'profile')">
-                        <span class="nav-icon">👤</span>
-                        <span class="nav-label">Profile</span>
-                    </a>
-                    <a href="#" class="nav-item" onclick="switchPage(event, 'notifications')">
-                        <span class="nav-icon">🔔</span>
-                        <span class="nav-label">Notifications</span>
-                    </a>
-                    <a href="#" class="nav-item" onclick="switchPage(event, 'settings')">
-                        <span class="nav-icon">⚙️</span>
-                        <span class="nav-label">Settings</span>
+                    <a href="#" class="nav-item" onclick="switchPage(event, 'reports')">
+                        <span class="nav-icon">📄</span>
+                        <span class="nav-label">Reports</span>
                     </a>
                 </nav>
 
@@ -1152,12 +1184,14 @@ body {
                         <h2 class="page-title" id="pageTitle">Dashboard</h2>
                     </div>
                     <div class="topbar-right">
+                        <a href="https://t.me/YOUR_BOT_USERNAME" target="_blank" class="btn-secondary"
+                            style="padding: 8px 16px; font-size: 14px;">
+                            📱 Open Bot
+                        </a>
                         <div class="user-profile" onclick="toggleUserMenu()">
                             <div class="avatar">👤</div>
                             <span class="user-name" id="userName">User</span>
                             <div class="dropdown-menu" id="userMenu">
-                                <a onclick="switchPage(event, 'profile')">View Profile</a>
-                                <a onclick="switchPage(event, 'settings')">Settings</a>
                                 <a onclick="handleLogout()" class="logout-link">Logout</a>
                             </div>
                         </div>
@@ -1170,7 +1204,7 @@ body {
                     <div id="overview-page" class="page-content active">
                         <div class="page-header">
                             <h1>Dashboard Overview</h1>
-                            <p>Welcome to your security dashboard</p>
+                            <p>Telegram ID: <strong id="userTelegramId"></strong></p>
                         </div>
 
                         <div class="stats-grid">
@@ -1179,291 +1213,83 @@ body {
                                     <span class="stat-label">Total Scans</span>
                                     <span class="stat-icon">🔍</span>
                                 </div>
-                                <div class="stat-value">1,234</div>
-                                <div class="stat-change positive">+12% this month</div>
+                                <div class="stat-value" id="totalScans">0</div>
+                                <div class="stat-change">All time scans</div>
                             </div>
                             <div class="stat-box">
                                 <div class="stat-header">
-                                    <span class="stat-label">Vulnerabilities Found</span>
+                                    <span class="stat-label">Vulnerabilities</span>
                                     <span class="stat-icon">⚠️</span>
                                 </div>
-                                <div class="stat-value">142</div>
-                                <div class="stat-change">High: 8, Medium: 34, Low: 100</div>
-                            </div>
-                            <div class="stat-box">
-                                <div class="stat-header">
-                                    <span class="stat-label">Fixed Issues</span>
-                                    <span class="stat-icon">✅</span>
-                                </div>
-                                <div class="stat-value">127</div>
-                                <div class="stat-change positive">89% resolution rate</div>
+                                <div class="stat-value" id="totalVulns">0</div>
+                                <div class="stat-change">Total issues found</div>
                             </div>
                             <div class="stat-box">
                                 <div class="stat-header">
                                     <span class="stat-label">Security Score</span>
                                     <span class="stat-icon">🛡️</span>
                                 </div>
-                                <div class="stat-value">92/100</div>
-                                <div class="stat-change positive">Excellent</div>
+                                <div class="stat-value" id="securityScore">--</div>
+                                <div class="stat-change">Average score</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-header">
+                                    <span class="stat-label">Status</span>
+                                    <span class="stat-icon">✅</span>
+                                </div>
+                                <div class="stat-value" style="font-size: 20px;">Active</div>
+                                <div class="stat-change positive">Account verified</div>
                             </div>
                         </div>
 
                         <div class="recent-scans">
                             <h3>Recent Scans</h3>
-                            <table class="scans-table">
+                            <table class="scans-table" id="scansTable">
                                 <thead>
                                     <tr>
-                                        <th>Project</th>
+                                        <th>Target</th>
                                         <th>Status</th>
-                                        <th>Issues Found</th>
+                                        <th>Vulnerabilities</th>
+                                        <th>Score</th>
                                         <th>Date</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="scansTableBody">
                                     <tr>
-                                        <td>API Gateway</td>
-                                        <td><span class="badge success">Complete</span></td>
-                                        <td>3</td>
-                                        <td>Today</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Web Application</td>
-                                        <td><span class="badge success">Complete</span></td>
-                                        <td>12</td>
-                                        <td>Yesterday</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mobile App</td>
-                                        <td><span class="badge warning">Scanning</span></td>
-                                        <td>-</td>
-                                        <td>In Progress</td>
+                                        <td colspan="5" style="text-align: center; color: var(--text-secondary);">
+                                            No scans yet. Start scanning via Telegram bot!
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
 
-                    <!-- Risks Page -->
-                    <div id="risks-page" class="page-content">
+                    <!-- Scans Page -->
+                    <div id="scans-page" class="page-content">
+                        <div class="page-header">
+                            <h1>My Scans</h1>
+                            <p>All your security scans</p>
+                        </div>
+                        <div id="scansListContainer"></div>
+                    </div>
+
+                    <!-- Vulnerabilities Page -->
+                    <div id="vulnerabilities-page" class="page-content">
                         <div class="page-header">
                             <h1>Vulnerabilities</h1>
-                            <p>All detected vulnerabilities and security issues</p>
+                            <p>Detected security issues</p>
                         </div>
-
-                        <div class="risks-filter">
-                            <select class="filter-select" id="severityFilter" onchange="filterRisks()">
-                                <option value="">All Severities</option>
-                                <option value="critical">Critical</option>
-                                <option value="high">High</option>
-                                <option value="medium">Medium</option>
-                                <option value="low">Low</option>
-                            </select>
-                        </div>
-
-                        <div class="risks-grid">
-                            <div class="risk-card critical">
-                                <div class="risk-header">
-                                    <h4>SQL Injection</h4>
-                                    <span class="risk-severity">Critical</span>
-                                </div>
-                                <p class="risk-description">Unvalidated user input in database queries</p>
-                                <div class="risk-location">File: login.php:42</div>
-                            </div>
-                            <div class="risk-card high">
-                                <div class="risk-header">
-                                    <h4>XSS Vulnerability</h4>
-                                    <span class="risk-severity">High</span>
-                                </div>
-                                <p class="risk-description">Unescaped HTML in user comments</p>
-                                <div class="risk-location">File: comment.js:105</div>
-                            </div>
-                            <div class="risk-card medium">
-                                <div class="risk-header">
-                                    <h4>Weak Password Policy</h4>
-                                    <span class="risk-severity">Medium</span>
-                                </div>
-                                <p class="risk-description">Insufficient password strength requirements</p>
-                                <div class="risk-location">File: auth.js:78</div>
-                            </div>
-                        </div>
+                        <div id="vulnsListContainer"></div>
                     </div>
 
-                    <!-- Plans Page -->
-                    <div id="plans-page" class="page-content">
+                    <!-- Reports Page -->
+                    <div id="reports-page" class="page-content">
                         <div class="page-header">
-                            <h1>Subscription Plans</h1>
-                            <p>Upgrade or manage your current plan</p>
+                            <h1>Reports</h1>
+                            <p>Download your security reports</p>
                         </div>
-
-                        <div class="current-plan">
-                            <h3>Current Plan: Professional</h3>
-                            <p>$99/month - Renews on 2024-02-15</p>
-                            <button class="btn-secondary">Manage Plan</button>
-                        </div>
-
-                        <div class="plans-compare">
-                            <div class="plan-item">
-                                <h4>Starter</h4>
-                                <p class="plan-price">$29/month</p>
-                                <ul>
-                                    <li>✓ 5 projects</li>
-                                    <li>✓ Basic scanning</li>
-                                    <li>✓ Weekly reports</li>
-                                </ul>
-                                <button class="btn-secondary">Downgrade</button>
-                            </div>
-                            <div class="plan-item active">
-                                <h4>Professional</h4>
-                                <p class="plan-price">$99/month</p>
-                                <ul>
-                                    <li>✓ Unlimited projects</li>
-                                    <li>✓ Advanced scanning</li>
-                                    <li>✓ Real-time alerts</li>
-                                    <li>✓ Priority support</li>
-                                </ul>
-                                <button class="btn-primary" disabled>Current Plan</button>
-                            </div>
-                            <div class="plan-item">
-                                <h4>Enterprise</h4>
-                                <p class="plan-price">Custom</p>
-                                <ul>
-                                    <li>✓ Custom deployment</li>
-                                    <li>✓ Dedicated team</li>
-                                    <li>✓ 24/7 support</li>
-                                </ul>
-                                <button class="btn-secondary">Upgrade</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Profile Page -->
-                    <div id="profile-page" class="page-content">
-                        <div class="page-header">
-                            <h1>User Profile</h1>
-                            <p>Manage your account information</p>
-                        </div>
-
-                        <form class="profile-form" onsubmit="handleProfileUpdate(event)">
-                            <div class="profile-avatar">
-                                <div class="avatar-large">👤</div>
-                                <button type="button" class="btn-secondary">Change Avatar</button>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Full Name</label>
-                                <input type="text" class="form-input" id="profileName" placeholder="Your Name" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-input" id="profileEmail" placeholder="your@email.com" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Company</label>
-                                <input type="text" class="form-input" id="profileCompany" placeholder="Your Company">
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Phone</label>
-                                <input type="tel" class="form-input" id="profilePhone" placeholder="+1 (555) 000-0000">
-                            </div>
-
-                            <button type="submit" class="btn-primary">Save Changes</button>
-                        </form>
-                    </div>
-
-                    <!-- Notifications Page -->
-                    <div id="notifications-page" class="page-content">
-                        <div class="page-header">
-                            <h1>Notifications</h1>
-                            <p>Your security alerts and updates</p>
-                        </div>
-
-                        <div class="notifications-list">
-                            <div class="notification critical">
-                                <div class="notification-icon">⚠️</div>
-                                <div class="notification-content">
-                                    <h4>Critical Vulnerability Detected</h4>
-                                    <p>SQL Injection found in API Gateway project</p>
-                                    <span class="notification-time">2 hours ago</span>
-                                </div>
-                                <button class="notification-dismiss" onclick="dismissNotification(this)">✕</button>
-                            </div>
-
-                            <div class="notification high">
-                                <div class="notification-icon">🔔</div>
-                                <div class="notification-content">
-                                    <h4>Scan Completed</h4>
-                                    <p>Web Application scan finished with 12 issues found</p>
-                                    <span class="notification-time">1 day ago</span>
-                                </div>
-                                <button class="notification-dismiss" onclick="dismissNotification(this)">✕</button>
-                            </div>
-
-                            <div class="notification info">
-                                <div class="notification-icon">ℹ️</div>
-                                <div class="notification-content">
-                                    <h4>Plan Renewal</h4>
-                                    <p>Your Professional plan will renew on 2024-02-15</p>
-                                    <span class="notification-time">5 days ago</span>
-                                </div>
-                                <button class="notification-dismiss" onclick="dismissNotification(this)">✕</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Settings Page -->
-                    <div id="settings-page" class="page-content">
-                        <div class="page-header">
-                            <h1>Settings</h1>
-                            <p>Manage your account settings and preferences</p>
-                        </div>
-
-                        <div class="settings-section">
-                            <h3>Security Settings</h3>
-                            <div class="setting-item">
-                                <div class="setting-info">
-                                    <h4>Two-Factor Authentication</h4>
-                                    <p>Add an extra layer of security to your account</p>
-                                </div>
-                                <button class="btn-secondary" onclick="enableTwoFA()">Enable</button>
-                            </div>
-                            <div class="setting-item">
-                                <div class="setting-info">
-                                    <h4>API Keys</h4>
-                                    <p>Manage your API keys for integrations</p>
-                                </div>
-                                <button class="btn-secondary">Manage Keys</button>
-                            </div>
-                        </div>
-
-                        <div class="settings-section">
-                            <h3>Notification Preferences</h3>
-                            <label class="setting-toggle">
-                                <input type="checkbox" checked>
-                                <span class="toggle-label">Email notifications for critical vulnerabilities</span>
-                            </label>
-                            <label class="setting-toggle">
-                                <input type="checkbox" checked>
-                                <span class="toggle-label">Weekly security reports</span>
-                            </label>
-                            <label class="setting-toggle">
-                                <input type="checkbox">
-                                <span class="toggle-label">Marketing emails</span>
-                            </label>
-                        </div>
-
-                        <div class="settings-section danger">
-                            <h3>Danger Zone</h3>
-                            <div class="setting-item">
-                                <div class="setting-info">
-                                    <h4>Delete Account</h4>
-                                    <p>Permanently delete your account and all data</p>
-                                </div>
-                                <button class="btn-danger" onclick="handleDeleteAccount()">Delete Account</button>
-                            </div>
-                        </div>
+                        <div id="reportsListContainer"></div>
                     </div>
                 </div>
             </main>
@@ -1471,244 +1297,307 @@ body {
     </div>
 
     <script>
-// Page Navigation
-function switchToPage(page) {
-  document.getElementById('landingPage').style.display = page === 'landing' ? 'block' : 'none';
-  document.getElementById('loginPage').style.display = page === 'login' ? 'flex' : 'none';
-  document.getElementById('signupPage').style.display = page === 'signup' ? 'flex' : 'none';
-  document.getElementById('dashboardPage').style.display = page === 'dashboard' ? 'flex' : 'none';
-  window.scrollTo(0, 0);
-}
+        // API Configuration - استبدل هذا بعنوان السيرفر الخاص بك
+        const API_URL = 'https://suffixsec.site/api'; // أو http://localhost:8000
 
-function scrollToSection(sectionId) {
-  const element = document.getElementById(sectionId);
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth' });
-  }
-}
+        // Page Navigation
+        function switchToPage(page) {
+            document.getElementById('landingPage').style.display = page === 'landing' ? 'block' : 'none';
+            document.getElementById('loginPage').style.display = page === 'login' ? 'flex' : 'none';
+            document.getElementById('signupPage').style.display = page === 'signup' ? 'flex' : 'none';
+            document.getElementById('dashboardPage').style.display = page === 'dashboard' ? 'flex' : 'none';
+            window.scrollTo(0, 0);
+        }
 
-// Auth Functions
-function handleLogin(event) {
-  event.preventDefault();
-  const email = document.getElementById('loginEmail').value;
-  const password = document.getElementById('loginPassword').value;
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
 
-  if (email && password) {
-    const user = {
-      email: email,
-      name: email.split('@')[0],
-      plan: 'Professional',
-      joinDate: new Date().toLocaleDateString(),
-    };
+        // Auth Functions
+        async function handleLogin(event) {
+            event.preventDefault();
+            const telegramId = document.getElementById('loginTelegramId').value;
+            const errorEl = document.getElementById('loginError');
+            errorEl.classList.remove('show');
 
-    localStorage.setItem('suffixsec_user', JSON.stringify(user));
-    alert('Login successful! Redirecting to dashboard...');
-    switchToPage('dashboard');
-    loadUserData();
-  }
-}
+            try {
+                const response = await fetch(`${API_URL}/user/${telegramId}`);
+                const data = await response.json();
 
-function handleSignup(event) {
-  event.preventDefault();
-  const name = document.getElementById('signupName').value;
-  const email = document.getElementById('signupEmail').value;
-  const password = document.getElementById('signupPassword').value;
-  const confirmPassword = document.getElementById('signupConfirmPassword').value;
+                if (response.ok && data.activated) {
+                    localStorage.setItem('suffixsec_telegram_id', telegramId);
+                    localStorage.setItem('suffixsec_user', JSON.stringify(data));
+                    switchToPage('dashboard');
+                    loadDashboardData();
+                } else {
+                    errorEl.textContent = 'User not found or not activated. Please sign up first.';
+                    errorEl.classList.add('show');
+                }
+            } catch (error) {
+                errorEl.textContent = 'Connection error. Please try again.';
+                errorEl.classList.add('show');
+            }
+        }
 
-  if (password !== confirmPassword) {
-    alert('Passwords do not match!');
-    return;
-  }
+        async function handleSignup(event) {
+            event.preventDefault();
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const telegramId = document.getElementById('signupTelegramId').value;
+            const activationKey = document.getElementById('signupActivationKey').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
 
-  if (name && email && password) {
-    const user = {
-      email: email,
-      name: name,
-      plan: 'Starter',
-      joinDate: new Date().toLocaleDateString(),
-    };
+            const errorEl = document.getElementById('signupError');
+            const successEl = document.getElementById('signupSuccess');
+            errorEl.classList.remove('show');
+            successEl.classList.remove('show');
 
-    localStorage.setItem('suffixsec_user', JSON.stringify(user));
-    alert('Account created successfully! Redirecting to dashboard...');
-    switchToPage('dashboard');
-    loadUserData();
-  }
-}
+            if (password !== confirmPassword) {
+                errorEl.textContent = 'Passwords do not match!';
+                errorEl.classList.add('show');
+                return;
+            }
 
-function handleLogout() {
-  if (confirm('Are you sure you want to logout?')) {
-    localStorage.removeItem('suffixsec_user');
-    switchToPage('landing');
-  }
-}
+            try {
+                // التحقق من مفتاح التفعيل
+                const response = await fetch(`${API_URL}/activate`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        telegram_id: parseInt(telegramId),
+                        activation_key: activationKey,
+                        name: name,
+                        email: email
+                    })
+                });
 
-// Dashboard Functions
-let currentPage = 'overview';
+                const data = await response.json();
 
-function switchPage(event, pageName) {
-  event.preventDefault();
-  
-  const currentPageEl = document.getElementById(currentPage + '-page');
-  if (currentPageEl) {
-    currentPageEl.classList.remove('active');
-  }
+                if (response.ok) {
+                    successEl.textContent = 'Account activated successfully! Redirecting to dashboard...';
+                    successEl.classList.add('show');
 
-  document.querySelectorAll('.nav-item').forEach((item) => {
-    item.classList.remove('active');
-  });
+                    localStorage.setItem('suffixsec_telegram_id', telegramId);
+                    localStorage.setItem('suffixsec_user', JSON.stringify({ telegram_id: telegramId, name, email }));
 
-  const newPageEl = document.getElementById(pageName + '-page');
-  if (newPageEl) {
-    newPageEl.classList.add('active');
-  }
+                    setTimeout(() => {
+                        switchToPage('dashboard');
+                        loadDashboardData();
+                    }, 2000);
+                } else {
+                    errorEl.textContent = data.detail || 'Activation failed. Please check your activation key.';
+                    errorEl.classList.add('show');
+                }
+            } catch (error) {
+                errorEl.textContent = 'Connection error. Please try again.';
+                errorEl.classList.add('show');
+            }
+        }
 
-  event.target.closest('.nav-item')?.classList.add('active');
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('suffixsec_telegram_id');
+                localStorage.removeItem('suffixsec_user');
+                switchToPage('landing');
+            }
+        }
 
-  const titles = {
-    overview: 'Dashboard Overview',
-    risks: 'Vulnerabilities',
-    plans: 'Subscription Plans',
-    profile: 'User Profile',
-    notifications: 'Notifications',
-    settings: 'Settings',
-  };
+        // Dashboard Functions
+        let currentPage = 'overview';
 
-  document.getElementById('pageTitle').textContent = titles[pageName] || 'Dashboard';
-  currentPage = pageName;
+        function switchPage(event, pageName) {
+            event.preventDefault();
 
-  const sidebar = document.getElementById('sidebar');
-  if (sidebar && window.innerWidth <= 768) {
-    sidebar.classList.remove('active');
-  }
-}
+            const currentPageEl = document.getElementById(currentPage + '-page');
+            if (currentPageEl) {
+                currentPageEl.classList.remove('active');
+            }
 
-function toggleSidebar() {
-  const sidebar = document.getElementById('sidebar');
-  sidebar?.classList.toggle('active');
-}
+            document.querySelectorAll('.nav-item').forEach((item) => {
+                item.classList.remove('active');
+            });
 
-function toggleUserMenu() {
-  const menu = document.getElementById('userMenu');
-  if (menu) {
-    menu.classList.toggle('show');
-  }
+            const newPageEl = document.getElementById(pageName + '-page');
+            if (newPageEl) {
+                newPageEl.classList.add('active');
+            }
 
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.user-profile')) {
-      menu?.classList.remove('show');
-    }
-  });
-}
+            event.target.closest('.nav-item')?.classList.add('active');
 
-function handleProfileUpdate(event) {
-  event.preventDefault();
+            const titles = {
+                overview: 'Dashboard Overview',
+                scans: 'My Scans',
+                vulnerabilities: 'Vulnerabilities',
+                reports: 'Reports'
+            };
 
-  const name = document.getElementById('profileName').value;
-  const email = document.getElementById('profileEmail').value;
-  const company = document.getElementById('profileCompany').value;
-  const phone = document.getElementById('profilePhone').value;
+            document.getElementById('pageTitle').textContent = titles[pageName] || 'Dashboard';
+            currentPage = pageName;
 
-  const user = JSON.parse(localStorage.getItem('suffixsec_user') || '{}');
-  user.name = name;
-  user.email = email;
-  user.company = company;
-  user.phone = phone;
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar && window.innerWidth <= 768) {
+                sidebar.classList.remove('active');
+            }
 
-  localStorage.setItem('suffixsec_user', JSON.stringify(user));
-  alert('Profile updated successfully!');
-}
+            // تحميل البيانات حسب الصفحة
+            if (pageName === 'scans') loadScans();
+            if (pageName === 'vulnerabilities') loadVulnerabilities();
+            if (pageName === 'reports') loadReports();
+        }
 
-function filterRisks() {
-  const filter = document.getElementById('severityFilter').value;
-  const riskCards = document.querySelectorAll('.risk-card');
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar?.classList.toggle('active');
+        }
 
-  riskCards.forEach((card) => {
-    if (!filter) {
-      card.style.display = 'block';
-    } else {
-      card.style.display = card.classList.contains(filter) ? 'block' : 'none';
-    }
-  });
-}
+        function toggleUserMenu() {
+            const menu = document.getElementById('userMenu');
+            if (menu) {
+                menu.classList.toggle('show');
+            }
+        }
 
-function dismissNotification(button) {
-  button.closest('.notification').style.animation = 'fadeOut 0.3s ease';
-  setTimeout(() => {
-    button.closest('.notification').remove();
-  }, 300);
-}
+        // تحميل بيانات الداشبورد من البوت
+        async function loadDashboardData() {
+            const telegramId = localStorage.getItem('suffixsec_telegram_id');
+            const user = JSON.parse(localStorage.getItem('suffixsec_user') || '{}');
 
-function enableTwoFA() {
-  alert('Two-Factor Authentication setup coming soon!');
-}
+            if (!telegramId) {
+                switchToPage('landing');
+                return;
+            }
 
-function handleDeleteAccount() {
-  if (confirm('Are you sure you want to permanently delete your account? This action cannot be undone.')) {
-    localStorage.removeItem('suffixsec_user');
-    alert('Account deleted successfully.');
-    switchToPage('landing');
-  }
-}
+            document.getElementById('userName').textContent = user.name || 'User';
+            document.getElementById('userTelegramId').textContent = telegramId;
 
-function loadUserData() {
-  const user = JSON.parse(localStorage.getItem('suffixsec_user') || '{}');
+            try {
+                // جلب إحصائيات المستخدم
+                const response = await fetch(`${API_URL}/scans/${telegramId}`);
+                const data = await response.json();
 
-  if (user.name) {
-    document.getElementById('userName').textContent = user.name;
+                if (response.ok) {
+                    document.getElementById('totalScans').textContent = data.total_scans || 0;
+                    document.getElementById('totalVulns').textContent = data.total_vulnerabilities || 0;
+                    document.getElementById('securityScore').textContent = data.avg_security_score || '--';
 
-    if (document.getElementById('profileName')) {
-      document.getElementById('profileName').value = user.name;
-      document.getElementById('profileEmail').value = user.email;
-      document.getElementById('profileCompany').value = user.company || '';
-      document.getElementById('profilePhone').value = user.phone || '';
-    }
-  }
-}
+                    // تحديث جدول الفحوصات
+                    if (data.recent_scans && data.recent_scans.length > 0) {
+                        const tbody = document.getElementById('scansTableBody');
+                        tbody.innerHTML = data.recent_scans.map(scan => `
+          <tr>
+            <td>${scan.target_url || 'N/A'}</td>
+            <td><span class="badge ${scan.status === 'completed' ? 'success' : 'warning'}">${scan.status}</span></td>
+            <td>${scan.vulnerabilities_count || 0}</td>
+            <td>${scan.security_score || '--'}</td>
+            <td>${new Date(scan.scan_date).toLocaleDateString()}</td>
+          </tr>
+        `).join('');
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load dashboard data:', error);
+            }
+        }
 
-function toggleDemo() {
-  alert('Demo video coming soon!');
-}
+        async function loadScans() {
+            const telegramId = localStorage.getItem('suffixsec_telegram_id');
+            const container = document.getElementById('scansListContainer');
+            container.innerHTML = '<p>Loading scans...</p>';
 
-function contactSales() {
-  alert('Sales team will contact you soon!');
-}
+            try {
+                const response = await fetch(`${API_URL}/scans/${telegramId}/all`);
+                const data = await response.json();
 
-function handleContactSubmit(event) {
-  event.preventDefault();
-  alert('Thank you for reaching out! We will get back to you soon.');
-  event.target.reset();
-}
+                if (response.ok && data.scans) {
+                    container.innerHTML = data.scans.map(scan => `
+        <div class="stat-box" style="margin-bottom: 15px;">
+          <h4>${scan.target_url}</h4>
+          <p>Status: <span class="badge ${scan.status === 'completed' ? 'success' : 'warning'}">${scan.status}</span></p>
+          <p>Vulnerabilities: ${scan.vulnerabilities_count || 0}</p>
+          <p>Date: ${new Date(scan.scan_date).toLocaleString()}</p>
+        </div>
+      `).join('');
+                } else {
+                    container.innerHTML = '<p>No scans found.</p>';
+                }
+            } catch (error) {
+                container.innerHTML = '<p>Error loading scans.</p>';
+            }
+        }
 
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-  const user = localStorage.getItem('suffixsec_user');
-  if (user) {
-    switchToPage('dashboard');
-    loadUserData();
-  } else {
-    switchToPage('landing');
-  }
+        async function loadVulnerabilities() {
+            const telegramId = localStorage.getItem('suffixsec_telegram_id');
+            const container = document.getElementById('vulnsListContainer');
+            container.innerHTML = '<p>Loading vulnerabilities...</p>';
 
-  // Set first nav item as active in dashboard
-  const firstNavItem = document.querySelector('.nav-item');
-  if (firstNavItem) {
-    firstNavItem.classList.add('active');
-  }
-});
+            try {
+                const response = await fetch(`${API_URL}/vulnerabilities/${telegramId}`);
+                const data = await response.json();
 
-// Smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-  anchor.addEventListener('click', function (e) {
-    const href = this.getAttribute('href');
-    if (href !== '#') {
-      e.preventDefault();
-      const target = document.querySelector(href);
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  });
-});
+                if (response.ok && data.vulnerabilities) {
+                    container.innerHTML = data.vulnerabilities.map(vuln => `
+        <div class="stat-box" style="margin-bottom: 15px; border-left: 4px solid ${vuln.severity === 'CRITICAL' ? '#ef4444' : vuln.severity === 'HIGH' ? '#f59e0b' : '#10b981'};">
+          <h4>${vuln.type}</h4>
+          <p><span class="badge ${vuln.severity === 'CRITICAL' ? 'danger' : vuln.severity === 'HIGH' ? 'warning' : 'success'}">${vuln.severity}</span></p>
+          <p>${vuln.description || 'No description'}</p>
+          <p><small>URL: ${vuln.url}</small></p>
+        </div>
+      `).join('');
+                } else {
+                    container.innerHTML = '<p>No vulnerabilities found.</p>';
+                }
+            } catch (error) {
+                container.innerHTML = '<p>Error loading vulnerabilities.</p>';
+            }
+        }
+
+        async function loadReports() {
+            const telegramId = localStorage.getItem('suffixsec_telegram_id');
+            const container = document.getElementById('reportsListContainer');
+            container.innerHTML = '<p>Loading reports...</p>';
+
+            try {
+                const response = await fetch(`${API_URL}/reports/${telegramId}`);
+                const data = await response.json();
+
+                if (response.ok && data.reports) {
+                    container.innerHTML = data.reports.map(report => `
+        <div class="stat-box" style="margin-bottom: 15px;">
+          <h4>Report - ${new Date(report.created_at).toLocaleDateString()}</h4>
+          <p>Scan: ${report.scan_url}</p>
+          <a href="${API_URL}/download-report/${report.id}" class="btn-primary" download>Download PDF</a>
+        </div>
+      `).join('');
+                } else {
+                    container.innerHTML = '<p>No reports found.</p>';
+                }
+            } catch (error) {
+                container.innerHTML = '<p>Error loading reports.</p>';
+            }
+        }
+
+        // Auto-refresh dashboard data every 30 seconds
+        setInterval(() => {
+            if (document.getElementById('dashboardPage').style.display === 'flex') {
+                loadDashboardData();
+            }
+        }, 30000);
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            const telegramId = localStorage.getItem('suffixsec_telegram_id');
+            if (telegramId) {
+                switchToPage('dashboard');
+                loadDashboardData();
+            } else {
+                switchToPage('landing');
+            }
+        });
     </script>
 </body>
+
 </html>
