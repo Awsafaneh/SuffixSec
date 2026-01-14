@@ -1096,12 +1096,7 @@
                         <small class="small-text">Get your ID from @userinfobot on Telegram</small>
                     </div>
 
-                    <div class="form-group">
-                        <label for="signupActivationKey" class="form-label">Activation Key</label>
-                        <input type="text" id="signupActivationKey" class="form-input"
-                            placeholder="Activation key from admin" required>
-                        <small class="small-text">Contact admin to get your activation key</small>
-                    </div>
+                    <!-- Open Registration: No Activation Key Required -->
 
                     <div class="form-group">
                         <label for="signupPassword" class="form-label">Password</label>
@@ -1348,7 +1343,8 @@
             const name = document.getElementById('signupName').value;
             const email = document.getElementById('signupEmail').value;
             const telegramId = document.getElementById('signupTelegramId').value;
-            const activationKey = document.getElementById('signupActivationKey').value;
+            // Open Registration
+            const activationKey = "";
             const password = document.getElementById('signupPassword').value;
             const confirmPassword = document.getElementById('signupConfirmPassword').value;
 
@@ -1364,13 +1360,13 @@
             }
 
             try {
-                // التحقق من مفتاح التفعيل
+                // Register user
                 const response = await fetch(`${API_URL}/activate`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         telegram_id: parseInt(telegramId),
-                        activation_key: activationKey,
+                        activation_key: activationKey, // Optional now
                         name: name,
                         email: email
                     })
@@ -1379,7 +1375,7 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    successEl.textContent = 'Account activated successfully! Redirecting to dashboard...';
+                    successEl.textContent = 'Account created successfully! Redirecting to dashboard...';
                     successEl.classList.add('show');
 
                     localStorage.setItem('suffixsec_telegram_id', telegramId);
