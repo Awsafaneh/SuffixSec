@@ -990,7 +990,7 @@
                     </p>
                     <div class="hero-buttons">
                         <button class="btn-primary" onclick="switchToPage('signup')">Start Free Trial</button>
-                        <a href="https://t.me/YOUR_BOT_USERNAME" target="_blank" class="telegram-connect">
+                        <a id="botLinkHero" href="#" target="_blank" class="telegram-connect">
                             <span>📱</span> Connect Telegram Bot
                         </a>
                     </div>
@@ -1184,7 +1184,7 @@
                         <h2 class="page-title" id="pageTitle">Dashboard</h2>
                     </div>
                     <div class="topbar-right">
-                        <a href="https://t.me/YOUR_BOT_USERNAME" target="_blank" class="btn-secondary"
+                        <a id="botLinkDash" href="#" target="_blank" class="btn-secondary"
                             style="padding: 8px 16px; font-size: 14px;">
                             📱 Open Bot
                         </a>
@@ -1297,8 +1297,9 @@
     </div>
 
     <script>
-        // API Configuration - استبدل هذا بعنوان السيرفر الخاص بك
-        const API_URL = 'https://suffixsec.site/api'; // أو http://localhost:8000
+        // API Configuration
+        const API_URL = 'http://127.0.0.1:8000/api';
+        const BOT_USERNAME = 'suffix_cs_bot';
 
         // Page Navigation
         function switchToPage(page) {
@@ -1589,6 +1590,13 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
+            // تحديث روابط البوت
+            const botUrl = `https://t.me/${BOT_USERNAME}`;
+            const botLinkHero = document.getElementById('botLinkHero');
+            const botLinkDash = document.getElementById('botLinkDash');
+            if (botLinkHero) botLinkHero.href = botUrl;
+            if (botLinkDash) botLinkDash.href = botUrl;
+
             const telegramId = localStorage.getItem('suffixsec_telegram_id');
             if (telegramId) {
                 switchToPage('dashboard');
