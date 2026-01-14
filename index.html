@@ -1099,7 +1099,8 @@
                     <div class="form-group">
                         <label for="signupActivationKey" class="form-label">Activation Key</label>
                         <input type="text" id="signupActivationKey" class="form-input"
-                            placeholder="Enter activation key" required>
+                            placeholder="Activation key from admin" required>
+                        <small class="small-text">Contact admin to get your activation key</small>
                     </div>
 
                     <div class="form-group">
@@ -1297,19 +1298,7 @@
 
     <script>
         // API Configuration
-        // API Configuration
-        let API_URL = '/api';
-
-        // Handle local file opening
-        if (window.location.protocol === 'file:') {
-            API_URL = 'http://127.0.0.1:8000/api';
-            console.log('Running locally via file://, using localhost API:', API_URL);
-        } else {
-            // Handle explicit relative path for hosted environments
-            API_URL = window.location.origin + '/api';
-            console.log('Running on server, using relative API:', API_URL);
-        }
-
+        const API_URL = 'http://127.0.0.1:8000/api';
         const BOT_USERNAME = 'suffix_cs_bot';
 
         // Page Navigation
@@ -1359,7 +1348,6 @@
             const name = document.getElementById('signupName').value;
             const email = document.getElementById('signupEmail').value;
             const telegramId = document.getElementById('signupTelegramId').value;
-            // Open Registration
             const activationKey = document.getElementById('signupActivationKey').value;
             const password = document.getElementById('signupPassword').value;
             const confirmPassword = document.getElementById('signupConfirmPassword').value;
@@ -1376,13 +1364,13 @@
             }
 
             try {
-                // Register user
+                // التحقق من مفتاح التفعيل
                 const response = await fetch(`${API_URL}/activate`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         telegram_id: parseInt(telegramId),
-                        activation_key: activationKey, // Optional now
+                        activation_key: activationKey,
                         name: name,
                         email: email
                     })
@@ -1391,7 +1379,7 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    successEl.textContent = 'Account created successfully! Redirecting to dashboard...';
+                    successEl.textContent = 'Account activated successfully! Redirecting to dashboard...';
                     successEl.classList.add('show');
 
                     localStorage.setItem('suffixsec_telegram_id', telegramId);
