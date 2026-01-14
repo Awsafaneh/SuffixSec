@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Get in touch with SuffixSec team">
+    <title>Contact Us - SuffixSec</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .contact-section {
+            padding: 80px 0;
+            min-height: calc(100vh - 200px);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 44px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .contact-item {
+            display: flex;
+            gap: 20px;
+            padding: 25px;
+            background: linear-gradient(135deg, var(--bg-card), rgba(26, 26, 46, 0.5));
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .contact-item:hover {
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .contact-icon {
+            font-size: 32px;
+            min-width: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-details h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .contact-details p {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        .contact-details a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .contact-details a:hover {
+            color: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .social-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: var(--transition);
+            padding: 8px 15px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+        }
+
+        .social-link:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .contact-form-wrapper {
+            background: linear-gradient(135deg, var(--bg-card), rgba(26, 26, 46, 0.5));
+            padding: 40px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .map-container {
+            margin-top: 60px;
+            height: 400px;
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+
+        @media (max-width: 768px) {
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon">🔐</span>
+                    <span class="logo-text">SuffixSec</span>
+                </a>
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="index.html#features" class="nav-link">Features</a>
+                    <a href="plans.html" class="nav-link">Pricing</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </nav>
+                <div class="header-actions">
+                    <a href="login.html" class="btn-secondary">Sign In</a>
+                    <a href="signup.html" class="btn-primary">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="section-header">
+                <h1 class="section-title">Get in <span class="gradient-text">Touch</span></h1>
+                <p class="section-subtitle">Have questions? We're here to help. Reach out to our team anytime.</p>
+            </div>
+
+            <div class="contact-content">
+                <!-- Contact Information -->
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-details">
+                            <h4>Phone</h4>
+                            <p><a href="tel:+15551234567">+1 (555) 123-4567</a></p>
+                            <p style="font-size: 13px; margin-top: 5px;">Mon-Fri, 9AM-6PM EST</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <h4>Email</h4>
+                            <p><a href="mailto:support@suffixsec.com">support@suffixsec.com</a></p>
+                            <p style="font-size: 13px; margin-top: 5px;">We'll respond within 24 hours</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <div class="contact-details">
+                            <h4>Telegram Bot</h4>
+                            <p><a href="https://t.me/suffix_cs_bot" target="_blank" data-bot-link>@suffix_cs_bot</a></p>
+                            <p style="font-size: 13px; margin-top: 5px;">Get instant security updates</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">🌐</div>
+                        <div class="contact-details">
+                            <h4>Social Media</h4>
+                            <div class="social-links">
+                                <a href="#" class="social-link">Twitter</a>
+                                <a href="#" class="social-link">LinkedIn</a>
+                                <a href="#" class="social-link">GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-details">
+                            <h4>Office</h4>
+                            <p>123 Security Street</p>
+                            <p>San Francisco, CA 94102</p>
+                            <p>United States</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="contact-form-wrapper">
+                    <h3 style="margin-bottom: 25px; font-size: 24px;">Send us a Message</h3>
+                    <form class="contact-form" onsubmit="handleContactSubmit(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contactName" class="form-label">Your Name *</label>
+                                <input type="text" id="contactName" name="name" class="form-input"
+                                    placeholder="John Doe" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contactEmail" class="form-label">Email Address *</label>
+                                <input type="email" id="contactEmail" name="email" class="form-input"
+                                    placeholder="you@example.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactSubject" class="form-label">Subject *</label>
+                            <input type="text" id="contactSubject" name="subject" class="form-input"
+                                placeholder="How can we help?" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactMessage" class="form-label">Message *</label>
+                            <textarea id="contactMessage" name="message" class="form-textarea"
+                                placeholder="Tell us more about your inquiry..." rows="6" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactCompany" class="form-label">Company (Optional)</label>
+                            <input type="text" id="contactCompany" name="company" class="form-input"
+                                placeholder="Your Company">
+                        </div>
+
+                        <div class="error-message" id="contactError"></div>
+                        <div class="success-message" id="contactSuccess"></div>
+
+                        <button type="submit" class="btn-primary btn-block">Send Message</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Map -->
+            <div class="map-container">
+                <div class="map-placeholder">
+                    <div style="text-align: center;">
+                        <div style="font-size: 48px; margin-bottom: 15px;">🗺️</div>
+                        <p>Map integration coming soon</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4 class="footer-title">SuffixSec</h4>
+                    <p class="footer-description">Advanced vulnerability detection platform powered by AI</p>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="plans.html">Pricing</a></li>
+                        <li><a href="#">Security</a></li>
+                        <li><a href="#">Docs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 SuffixSec. All rights reserved.</p>
+                <div>
+                    <a href="#" style="color: var(--text-secondary); text-decoration: none; margin: 0 15px;">Privacy
+                        Policy</a>
+                    <a href="#" style="color: var(--text-secondary); text-decoration: none; margin: 0 15px;">Terms of
+                        Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        async function handleContactSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            const errorEl = document.getElementById('contactError');
+            const successEl = document.getElementById('contactSuccess');
+
+            errorEl.classList.remove('show');
+            successEl.classList.remove('show');
+
+            try {
+                // Simulate form submission
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                successEl.textContent = 'Thank you for reaching out! We will get back to you within 24 hours.';
+                successEl.classList.add('show');
+                form.reset();
+
+                setTimeout(() => {
+                    successEl.classList.remove('show');
+                }, 5000);
+            } catch (error) {
+                errorEl.textContent = 'Error sending message. Please try again or email us directly.';
+                errorEl.classList.add('show');
+            }
+        }
+    </script>
+</body>
+
+</html>
