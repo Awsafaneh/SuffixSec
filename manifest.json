@@ -1,62 +1,20 @@
 {
-  "name": "SufixShield Pro - Evidence-First Website Security Scanning",
-  "short_name": "SufixShield Pro",
-  "description": "Verified findings, not signals. Real security intelligence for your web assets.",
+  "name": "SuffixSec - Advanced Vulnerability Detection Platform",
+  "short_name": "SuffixSec",
+  "description": "Next-Gen Code Security Platform with AI-powered vulnerability detection",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#0a0a0f",
-  "theme_color": "#a855f7",
+  "background_color": "#0a0a14",
+  "theme_color": "#10b981",
   "icons": [
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%23a855f7;stop-opacity:1' /><stop offset='100%' style='stop-color:%2306b6d4;stop-opacity:1' /></linearGradient></defs><rect fill='url(%23grad)' width='192' height='192' rx='40'/><rect x='48' y='48' width='96' height='96' rx='4' stroke='white' stroke-width='2' fill='none'/><path d='M96 64v64M64 96h64' stroke='white' stroke-width='2' stroke-linecap='round'/></svg>",
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%230a0a14' width='192' height='192'/><text x='50%' y='50%' font-size='100' font-weight='bold' fill='%2310b981' text-anchor='middle' dy='.3em'>🔐</text></svg>",
       "sizes": "192x192",
       "type": "image/svg+xml",
       "purpose": "any"
-    },
-    {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%23a855f7;stop-opacity:1' /><stop offset='100%' style='stop-color:%2306b6d4;stop-opacity:1' /></linearGradient></defs><rect fill='url(%23grad)' width='512' height='512' rx='100'/><rect x='128' y='128' width='256' height='256' rx='12' stroke='white' stroke-width='8' fill='none'/><path d='M256 170v172M170 256h172' stroke='white' stroke-width='8' stroke-linecap='round'/></svg>",
-      "sizes": "512x512",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
     }
   ],
-  "screenshots": [
-    {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'><rect fill='%230a0a0f' width='540' height='720'/><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%23a855f7;stop-opacity:1' /><stop offset='100%' style='stop-color:%2306b6d4;stop-opacity:1' /></linearGradient></defs><text x='270' y='360' font-size='80' font-weight='bold' fill='url(%23grad)' text-anchor='middle' font-family='sans-serif'>SufixShield</text><text x='270' y='420' font-size='50' fill='%23a1a1aa' text-anchor='middle' font-family='sans-serif'>Pro</text></svg>",
-      "sizes": "540x720",
-      "type": "image/svg+xml",
-      "form_factor": "narrow"
-    }
-  ],
-  "categories": ["security", "productivity", "tools"],
-  "shortcuts": [
-    {
-      "name": "Start Scanning",
-      "short_name": "Scan",
-      "description": "Start a new security scan",
-      "url": "/#demo",
-      "icons": [
-        {
-          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect fill='%23a855f7' width='96' height='96' rx='20'/><circle cx='48' cy='48' r='24' stroke='white' stroke-width='2' fill='none'/><circle cx='48' cy='48' r='16' stroke='white' stroke-width='2' fill='none'/><circle cx='48' cy='48' r='8' fill='white'/></svg>",
-          "sizes": "96x96",
-          "type": "image/svg+xml"
-        }
-      ]
-    },
-    {
-      "name": "View Pricing",
-      "short_name": "Pricing",
-      "description": "See our pricing plans",
-      "url": "/#pricing",
-      "icons": [
-        {
-          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect fill='%2306b6d4' width='96' height='96' rx='20'/><text x='48' y='56' font-size='60' fill='white' text-anchor='middle' font-weight='bold'>$</text></svg>",
-          "sizes": "96x96",
-          "type": "image/svg+xml"
-        }
-      ]
-    }
-  ]
+  "categories": ["productivity", "security"]
 }
