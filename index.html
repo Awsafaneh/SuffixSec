@@ -1,1611 +1,444 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Harness the power of AI to detect zero-day vulnerabilities, simulate sophisticated attacks, and protect your source code with enterprise-grade security.">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="SuffixSec">
-    <meta name="theme-color" content="#0f0f1e">
-    <title>SuffixSec - Advanced Vulnerability Detection Platform</title>
-    <link rel="manifest" href="manifest.json">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg-dark: #0f0f1e;
-            --bg-darker: #0a0a14;
-            --bg-card: #1a1a2e;
-            --primary: #10b981;
-            --primary-dark: #059669;
-            --accent: #06b6d4;
-            --accent-light: #22d3ee;
-            --text-primary: #e0e0e0;
-            --text-secondary: #a0a0b0;
-            --border: #2a2a3e;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --success: #10b981;
-            --radius: 12px;
-            --shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            --transition: all 0.3s ease;
-        }
-
-        html,
-        body {
-            width: 100%;
-            height: 100%;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-primary);
-            line-height: 1.6;
-        }
-
-        body {
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        @keyframes glow {
-
-            0%,
-            100% {
-                text-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
-            }
-
-            50% {
-                text-shadow: 0 0 40px rgba(16, 185, 129, 0.8);
-            }
-        }
-
-        /* Header & Navigation */
-        .header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: linear-gradient(135deg, rgba(15, 15, 30, 0.95), rgba(26, 26, 46, 0.95));
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border);
-            padding: 20px 0;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 24px;
-            font-weight: 700;
-            text-decoration: none;
-            color: var(--text-primary);
-            animation: slideInRight 0.6s ease;
-        }
-
-        .logo-icon {
-            font-size: 28px;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .logo-text {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-menu {
-            display: flex;
-            gap: 40px;
-            align-items: center;
-        }
-
-        .nav-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 500;
-            transition: var(--transition);
-            position: relative;
-            cursor: pointer;
-        }
-
-        .nav-link:hover {
-            color: var(--primary);
-        }
-
-        .nav-link::after {
-            content: "";
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: var(--transition);
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        /* Buttons */
-        .btn-primary,
-        .btn-secondary,
-        .btn-danger {
-            padding: 12px 28px;
-            border: none;
-            border-radius: var(--radius);
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            white-space: nowrap;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: white;
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.3);
-        }
-
-        .btn-primary:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-primary);
-            border: 2px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background: #dc2626;
-        }
-
-        .btn-block {
-            width: 100%;
-        }
-
-        .play-icon {
-            font-size: 12px;
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 100px 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
-            animation: float 20s ease-in-out infinite;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            animation: fadeIn 1s ease;
-        }
-
-        .hero-title {
-            font-size: 60px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            line-height: 1.1;
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: glow 2s ease-in-out infinite;
-        }
-
-        .hero-description {
-            font-size: 18px;
-            color: var(--text-secondary);
-            max-width: 700px;
-            margin: 0 auto 40px;
-            line-height: 1.8;
-        }
-
-        .highlight-text {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        /* Stats Section */
-        .stats {
-            padding: 80px 0;
-            background: linear-gradient(180deg, transparent, rgba(16, 185, 129, 0.05));
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, var(--bg-card), rgba(26, 26, 46, 0.5));
-            padding: 30px;
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            text-align: center;
-            transition: var(--transition);
-            animation: fadeIn 0.8s ease;
-        }
-
-        .stat-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: 0 20px 50px rgba(16, 185, 129, 0.1);
-        }
-
-        .stat-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .stat-number {
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-
-        .stat-label {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        /* Auth Pages */
-        .auth-page {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            background: var(--bg-dark);
-        }
-
-        .auth-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            width: 100%;
-            height: 100vh;
-            position: relative;
-        }
-
-        .auth-form-wrapper {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 60px 40px;
-            max-width: 500px;
-            z-index: 2;
-        }
-
-        .auth-background {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.1));
-            display: none;
-        }
-
-        .auth-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .auth-title {
-            font-size: 32px;
-            font-weight: 800;
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
-
-        .auth-subtitle {
-            color: var(--text-secondary);
-            font-size: 15px;
-        }
-
-        .auth-form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .form-label {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .form-input {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 12px 16px;
-            color: var(--text-primary);
-            font-size: 15px;
-            transition: var(--transition);
-            font-family: inherit;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-        }
-
-        .form-remember {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-        }
-
-        .checkbox {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: var(--primary);
-        }
-
-        .checkbox-label {
-            cursor: pointer;
-            color: var(--text-secondary);
-        }
-
-        .form-agree {
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        .auth-divider {
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin: 30px 0;
-        }
-
-        .auth-footer {
-            text-align: center;
-        }
-
-        .auth-footer-link {
-            color: var(--primary);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-        .auth-footer-link:hover {
-            color: var(--accent);
-        }
-
-        .error-message {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid var(--danger);
-            color: var(--danger);
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            margin-bottom: 15px;
-            display: none;
-        }
-
-        .error-message.show {
-            display: block;
-        }
-
-        .success-message {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid var(--success);
-            color: var(--success);
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            margin-bottom: 15px;
-            display: none;
-        }
-
-        .success-message.show {
-            display: block;
-        }
-
-        .small-text {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 5px;
-        }
-
-        /* Dashboard */
-        .dashboard-page {
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        .dashboard-container {
-            display: flex;
-            width: 100%;
-            height: 100%;
-        }
-
-        .sidebar {
-            width: 280px;
-            background: linear-gradient(180deg, var(--bg-darker), var(--bg-card));
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            animation: slideInRight 0.5s ease;
-        }
-
-        .sidebar-header {
-            padding: 25px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .sidebar-close {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        .sidebar-nav {
-            flex: 1;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 12px 16px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            border-radius: 8px;
-            transition: var(--transition);
-            cursor: pointer;
-            font-size: 15px;
-            border: none;
-            background: none;
-            width: 100%;
-            text-align: left;
-        }
-
-        .nav-item:hover {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--primary);
-        }
-
-        .nav-item.active {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 182, 212, 0.1));
-            color: var(--primary);
-            border-left: 3px solid var(--primary);
-        }
-
-        .nav-icon {
-            font-size: 20px;
-            min-width: 24px;
-        }
-
-        .nav-label {
-            flex: 1;
-        }
-
-        .sidebar-footer {
-            padding: 20px;
-            border-top: 1px solid var(--border);
-        }
-
-        .dashboard-main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .sidebar-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 24px;
-            cursor: pointer;
-            margin-right: 15px;
-        }
-
-        .dashboard-topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 30px;
-            background: linear-gradient(135deg, rgba(15, 15, 30, 0.95), rgba(26, 26, 46, 0.95));
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .topbar-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .page-title {
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            position: relative;
-            padding: 8px 16px;
-            border-radius: 8px;
-            transition: var(--transition);
-        }
-
-        .user-profile:hover {
-            background: rgba(16, 185, 129, 0.1);
-        }
-
-        .avatar,
-        .avatar-large {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        .avatar-large {
-            width: 100px;
-            height: 100px;
-            font-size: 40px;
-            margin-bottom: 20px;
-        }
-
-        .user-name {
-            font-size: 15px;
-            font-weight: 600;
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            min-width: 200px;
-            display: none;
-            flex-direction: column;
-            margin-top: 10px;
-            box-shadow: var(--shadow);
-            z-index: 10;
-        }
-
-        .dropdown-menu.show {
-            display: flex;
-        }
-
-        .dropdown-menu a {
-            padding: 12px 16px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 14px;
-            transition: var(--transition);
-            border-bottom: 1px solid var(--border);
-            cursor: pointer;
-        }
-
-        .dropdown-menu a:hover {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--primary);
-        }
-
-        .dropdown-menu a:last-child {
-            border-bottom: none;
-        }
-
-        .logout-link {
-            color: var(--danger);
-        }
-
-        .dashboard-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 30px;
-        }
-
-        .page-content {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .page-content.active {
-            display: block;
-        }
-
-        .page-header {
-            margin-bottom: 40px;
-        }
-
-        .page-header h1 {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-
-        .page-header p {
-            color: var(--text-secondary);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .stat-box {
-            background: linear-gradient(135deg, var(--bg-card), rgba(26, 26, 46, 0.5));
-            padding: 20px;
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-        }
-
-        .stat-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .stat-label {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        .stat-icon {
-            font-size: 24px;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .stat-value {
-            font-size: 32px;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-
-        .stat-change {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        .stat-change.positive {
-            color: var(--success);
-        }
-
-        .recent-scans {
-            margin-top: 40px;
-        }
-
-        .recent-scans h3 {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .scans-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .scans-table thead {
-            background: rgba(16, 185, 129, 0.05);
-        }
-
-        .scans-table th {
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-            color: var(--text-secondary);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .scans-table td {
-            padding: 15px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .scans-table tbody tr:hover {
-            background: rgba(16, 185, 129, 0.05);
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .badge.success {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--success);
-        }
-
-        .badge.warning {
-            background: rgba(245, 158, 11, 0.2);
-            color: var(--warning);
-        }
-
-        .badge.danger {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--danger);
-        }
-
-        .telegram-connect {
-            background: linear-gradient(135deg, #0088cc, #00a0e9);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition);
-        }
-
-        .telegram-connect:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 136, 204, 0.3);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-            }
-
-            .sidebar {
-                position: fixed;
-                left: 0;
-                top: 0;
-                height: 100vh;
-                z-index: 1000;
-                transform: translateX(-100%);
-                transition: var(--transition);
-            }
-
-            .sidebar.active {
-                transform: translateX(0);
-            }
-
-            .sidebar-close {
-                display: block;
-            }
-
-            .sidebar-toggle {
-                display: block;
-            }
-
-            .hero-title {
-                font-size: 36px;
-            }
-
-            .auth-container {
-                grid-template-columns: 1fr;
-            }
-
-            .auth-background {
-                display: block;
-            }
-        }
-    </style>
+    <meta name="description" content="SufixShield Pro - Evidence-First Website Security Scanning. Verified findings, not signals. Real security intelligence for your web assets.">
+    <meta name="theme-color" content="#0f172a">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="SufixShield Pro - Evidence-First Security Scanning">
+    <meta property="og:description" content="Verified findings, not signals. Real security intelligence for your web assets.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sufixshield.pro">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect fill='%2314b8a6' width='32' height='32' rx='8'/><path fill='white' d='M16 6c-5.5 0-10 4.5-10 10s4.5 10 10 10 10-4.5 10-10-4.5-10-10-10zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z'/></svg>">
+    
+    <link rel="stylesheet" href="styles.css">
+    <title>SufixShield Pro - Evidence-First Website Security Scanning</title>
 </head>
-
-<body id="appBody">
-    <!-- Landing Page -->
-    <div id="landingPage" class="landing-page">
-        <header class="header">
-            <div class="container">
-                <div class="header-content">
-                    <div class="logo">
-                        <span class="logo-icon">🔐</span>
-                        <span class="logo-text">SuffixSec</span>
-                    </div>
-                    <nav class="nav-menu" id="navMenu">
-                        <a onclick="scrollToSection('features')" class="nav-link">Features</a>
-                        <a onclick="scrollToSection('pricing')" class="nav-link">Pricing</a>
-                        <a onclick="scrollToSection('contact')" class="nav-link">Contact</a>
-                    </nav>
-                    <div class="header-actions">
-                        <button class="btn-secondary" onclick="switchToPage('login')">Sign In</button>
-                        <button class="btn-primary" onclick="switchToPage('signup')">Get Started</button>
-                    </div>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+                        <rect x="4" y="4" width="24" height="24" rx="4" stroke="currentColor" stroke-width="2"/>
+                        <path d="M16 10v8M12 14h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <span>SufixShield Pro</span>
                 </div>
-            </div>
-        </header>
-
-        <section class="hero">
-            <div class="container">
-                <div class="hero-content">
-                    <h1 class="hero-title">
-                        Next-Gen
-                        <span class="gradient-text">Code Security</span>
-                        Platform
-                    </h1>
-                    <p class="hero-description">
-                        Harness the power of AI to detect zero-day vulnerabilities, simulate sophisticated attacks, and
-                        protect your source code with <span class="highlight-text">enterprise-grade security</span>
-                        integrated with Telegram.
-                    </p>
-                    <div class="hero-buttons">
-                        <button class="btn-primary" onclick="switchToPage('signup')">Start Free Trial</button>
-                        <a id="botLinkHero" href="#" target="_blank" class="telegram-connect">
-                            <span>📱</span> Connect Telegram Bot
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="stats">
-            <div class="container">
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon">👁️</div>
-                        <div class="stat-number">96.2%</div>
-                        <div class="stat-label">Vulnerability Detection Rate</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">⚡</div>
-                        <div class="stat-number">Zero-Day</div>
-                        <div class="stat-label">Discovery Capable</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">🛡️</div>
-                        <div class="stat-number">24/7</div>
-                        <div class="stat-label">Continuous Monitoring</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- Login Page -->
-    <div id="loginPage" class="auth-page" style="display: none;">
-        <div class="auth-container">
-            <div class="auth-form-wrapper">
-                <div class="auth-header">
-                    <div class="logo">
-                        <span class="logo-icon">🔐</span>
-                        <span class="logo-text">SuffixSec</span>
-                    </div>
-                    <h1 class="auth-title">Welcome Back</h1>
-                    <p class="auth-subtitle">Sign in with your Telegram ID</p>
-                </div>
-
-                <div class="error-message" id="loginError"></div>
-
-                <form class="auth-form" onsubmit="handleLogin(event)">
-                    <div class="form-group">
-                        <label for="loginTelegramId" class="form-label">Telegram User ID</label>
-                        <input type="number" id="loginTelegramId" class="form-input" placeholder="Your Telegram ID"
-                            required>
-                        <small class="small-text">Get your ID from @userinfobot on Telegram</small>
-                    </div>
-
-                    <button type="submit" class="btn-primary btn-block">Sign In</button>
-                </form>
-
-                <div class="auth-divider">
-                    <span>Don't have an account?</span>
-                </div>
-
-                <button class="btn-secondary btn-block" onclick="switchToPage('signup')">Create Account</button>
-
-                <div class="auth-footer">
-                    <a onclick="switchToPage('landing')" class="auth-footer-link">Back to Home</a>
-                </div>
-            </div>
-
-            <div class="auth-background"></div>
-        </div>
-    </div>
-
-    <!-- Signup Page -->
-    <div id="signupPage" class="auth-page" style="display: none;">
-        <div class="auth-container">
-            <div class="auth-form-wrapper">
-                <div class="auth-header">
-                    <div class="logo">
-                        <span class="logo-icon">🔐</span>
-                        <span class="logo-text">SuffixSec</span>
-                    </div>
-                    <h1 class="auth-title">Create Account</h1>
-                    <p class="auth-subtitle">Join with your Telegram account</p>
-                </div>
-
-                <div class="error-message" id="signupError"></div>
-                <div class="success-message" id="signupSuccess"></div>
-
-                <form class="auth-form" onsubmit="handleSignup(event)">
-                    <div class="form-group">
-                        <label for="signupName" class="form-label">Full Name</label>
-                        <input type="text" id="signupName" class="form-input" placeholder="John Doe" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="signupEmail" class="form-label">Email Address</label>
-                        <input type="email" id="signupEmail" class="form-input" placeholder="you@example.com" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="signupTelegramId" class="form-label">Telegram User ID</label>
-                        <input type="number" id="signupTelegramId" class="form-input" placeholder="Your Telegram ID"
-                            required>
-                        <small class="small-text">Get your ID from @userinfobot on Telegram</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="signupActivationKey" class="form-label">Activation Key</label>
-                        <input type="text" id="signupActivationKey" class="form-input"
-                            placeholder="Activation key from admin" required>
-                        <small class="small-text">Contact admin to get your activation key</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="signupPassword" class="form-label">Password</label>
-                        <input type="password" id="signupPassword" class="form-input" placeholder="••••••••" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="signupConfirmPassword" class="form-label">Confirm Password</label>
-                        <input type="password" id="signupConfirmPassword" class="form-input" placeholder="••••••••"
-                            required>
-                    </div>
-
-                    <div class="form-agree">
-                        <input type="checkbox" id="agreeTerms" class="checkbox" required>
-                        <label for="agreeTerms" class="checkbox-label">I agree to Terms of Service and Privacy
-                            Policy</label>
-                    </div>
-
-                    <button type="submit" class="btn-primary btn-block">Create Account</button>
-                </form>
-
-                <div class="auth-divider">
-                    <span>Already have an account?</span>
-                </div>
-
-                <button class="btn-secondary btn-block" onclick="switchToPage('login')">Sign In</button>
-
-                <div class="auth-footer">
-                    <a onclick="switchToPage('landing')" class="auth-footer-link">Back to Home</a>
-                </div>
-            </div>
-
-            <div class="auth-background"></div>
-        </div>
-    </div>
-
-    <!-- Dashboard Page -->
-    <div id="dashboardPage" class="dashboard-page" style="display: none;">
-        <div class="dashboard-container">
-            <!-- Sidebar -->
-            <aside class="sidebar" id="sidebar">
-                <div class="sidebar-header">
-                    <div class="logo">
-                        <span class="logo-icon">🔐</span>
-                        <span class="logo-text">SuffixSec</span>
-                    </div>
-                    <button class="sidebar-close" onclick="toggleSidebar()">✕</button>
-                </div>
-
-                <nav class="sidebar-nav">
-                    <a href="#" class="nav-item active" onclick="switchPage(event, 'overview')">
-                        <span class="nav-icon">📊</span>
-                        <span class="nav-label">Overview</span>
-                    </a>
-                    <a href="#" class="nav-item" onclick="switchPage(event, 'scans')">
-                        <span class="nav-icon">🔍</span>
-                        <span class="nav-label">My Scans</span>
-                    </a>
-                    <a href="#" class="nav-item" onclick="switchPage(event, 'vulnerabilities')">
-                        <span class="nav-icon">⚠️</span>
-                        <span class="nav-label">Vulnerabilities</span>
-                    </a>
-                    <a href="#" class="nav-item" onclick="switchPage(event, 'reports')">
-                        <span class="nav-icon">📄</span>
-                        <span class="nav-label">Reports</span>
-                    </a>
+                <nav class="nav-menu">
+                    <a href="#how-it-works">How It Works</a>
+                    <a href="#features">Features</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#faq">FAQ</a>
+                    <a href="#contact">Contact</a>
                 </nav>
+                <button class="btn btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Started</button>
+            </div>
+        </div>
+    </header>
 
-                <div class="sidebar-footer">
-                    <button class="btn-secondary btn-block" onclick="handleLogout()">Logout</button>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Evidence-First Website Security Scanning</h1>
+                <p class="hero-subtitle">Verified findings, not signals. Real security intelligence for your web assets. Know exactly what's exposed.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="scrollToSection('demo')">View Demo</button>
+                    <button class="btn btn-secondary" onclick="scrollToSection('pricing')">View Plans</button>
                 </div>
-            </aside>
+            </div>
+        </div>
+    </section>
 
-            <!-- Main Content -->
-            <main class="dashboard-main">
-                <!-- Top Bar -->
-                <div class="dashboard-topbar">
-                    <div class="topbar-left">
-                        <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
-                        <h2 class="page-title" id="pageTitle">Dashboard</h2>
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle">Evidence-First Security Intelligence</p>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Scan Your Asset</h3>
+                    <p>Point us at your domain. We crawl your entire web presence and identify your attack surface.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Verify Evidence</h3>
+                    <p>Every finding is verified. We don't report signals - only confirmed vulnerabilities with proof.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Get Intelligence</h3>
+                    <p>Detailed reports with TLS verification, security headers, and optional advanced integrations.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3>Take Action</h3>
+                    <p>Prioritized remediation guidance. Fix what matters most to your security posture.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Powerful Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Attack Surface Inventory</h3>
+                    <p>Complete discovery of your web properties, subdomains, and exposed services.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✓</div>
+                    <h3>Verified Findings</h3>
+                    <p>Evidence-based reporting. Every vulnerability is confirmed, never a false positive.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>TLS Verification</h3>
+                    <p>Complete SSL/TLS certificate analysis and security validation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>Security Headers</h3>
+                    <p>Comprehensive security header detection and compliance checking.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔗</div>
+                    <h3>Optional Integrations</h3>
+                    <p>Advanced scanning with nmap, nuclei, and custom security tools.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Detailed Reports</h3>
+                    <p>Professional security reports with remediation guidance and prioritization.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Continuous Monitoring</h3>
+                    <p>Track security changes over time with automated recurring scans.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚙️</div>
+                    <h3>API Access</h3>
+                    <p>Integrate scanning into your CI/CD pipeline and automation workflows.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Simple, Transparent Pricing</h2>
+            
+            <!-- Billing Toggle -->
+            <div class="billing-toggle">
+                <button class="toggle-btn active" data-period="monthly">Monthly</button>
+                <button class="toggle-btn" data-period="yearly">Yearly <span class="save-badge">Save 2 months</span></button>
+            </div>
+
+            <!-- Pricing Cards -->
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Starter</h3>
+                    <div class="price"><span class="amount" data-monthly="19" data-yearly="228">$19</span><span class="period">/month</span></div>
+                    <ul class="pricing-features">
+                        <li>✓ Up to 5 domains</li>
+                        <li>✓ Monthly scans</li>
+                        <li>✓ Verified findings</li>
+                        <li>✓ Basic reports</li>
+                        <li>✗ API access</li>
+                        <li>✗ Priority support</li>
+                    </ul>
+                    <button class="btn btn-secondary btn-block">Get Started</button>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="badge">Most Popular</div>
+                    <h3>Pro</h3>
+                    <div class="price"><span class="amount" data-monthly="49" data-yearly="588">$49</span><span class="period">/month</span></div>
+                    <ul class="pricing-features">
+                        <li>✓ Unlimited domains</li>
+                        <li>✓ Weekly scans</li>
+                        <li>✓ Verified findings</li>
+                        <li>✓ Advanced reports</li>
+                        <li>✓ API access</li>
+                        <li>✓ Email support</li>
+                    </ul>
+                    <button class="btn btn-primary btn-block">Start Free Trial</button>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Enterprise</h3>
+                    <div class="price"><span class="contact-text">Custom</span></div>
+                    <ul class="pricing-features">
+                        <li>✓ Everything in Pro</li>
+                        <li>✓ Real-time scanning</li>
+                        <li>✓ Custom integrations</li>
+                        <li>✓ Dedicated account manager</li>
+                        <li>✓ 99.9% SLA</li>
+                        <li>✓ Phone support</li>
+                    </ul>
+                    <button class="btn btn-secondary btn-block">Contact Sales</button>
+                </div>
+            </div>
+
+            <!-- Compare Plans Table -->
+            <div class="compare-table-wrapper">
+                <h3 class="compare-title">Compare Plans</h3>
+                <table class="compare-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Starter</th>
+                            <th>Pro</th>
+                            <th>Enterprise</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Domains</td>
+                            <td>5</td>
+                            <td>Unlimited</td>
+                            <td>Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td>Scan Frequency</td>
+                            <td>Monthly</td>
+                            <td>Weekly</td>
+                            <td>Real-time</td>
+                        </tr>
+                        <tr>
+                            <td>API Access</td>
+                            <td>✗</td>
+                            <td>✓</td>
+                            <td>✓</td>
+                        </tr>
+                        <tr>
+                            <td>Custom Integrations</td>
+                            <td>✗</td>
+                            <td>✗</td>
+                            <td>✓</td>
+                        </tr>
+                        <tr>
+                            <td>Priority Support</td>
+                            <td>✗</td>
+                            <td>✓</td>
+                            <td>✓</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Section -->
+    <section class="trust">
+        <div class="container">
+            <h2 class="section-title">Trusted by Security Teams</h2>
+            <div class="trust-grid">
+                <div class="trust-card">
+                    <div class="trust-stat">10K+</div>
+                    <div class="trust-label">Domains Scanned</div>
+                </div>
+                <div class="trust-card">
+                    <div class="trust-stat">99.9%</div>
+                    <div class="trust-label">Uptime SLA</div>
+                </div>
+                <div class="trust-card">
+                    <div class="trust-stat">0</div>
+                    <div class="trust-label">False Positives</div>
+                </div>
+                <div class="trust-card">
+                    <div class="trust-stat">24/7</div>
+                    <div class="trust-label">Scanning Active</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section class="demo" id="demo">
+        <div class="container">
+            <h2 class="section-title">Live Demo (Simulated)</h2>
+            <p class="section-subtitle">See SufixShield Pro in action</p>
+            
+            <div class="demo-container">
+                <div class="demo-input">
+                    <input type="text" id="demoInput" placeholder="example.com" value="example.com">
+                    <button class="btn btn-primary" onclick="startDemo()">Scan Domain</button>
+                </div>
+                
+                <div id="demoResults" class="demo-results" style="display:none;">
+                    <div class="demo-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <p id="progressText">Initializing scan...</p>
                     </div>
-                    <div class="topbar-right">
-                        <a id="botLinkDash" href="#" target="_blank" class="btn-secondary"
-                            style="padding: 8px 16px; font-size: 14px;">
-                            📱 Open Bot
+                    
+                    <div id="findingsContainer" style="display:none;">
+                        <h3>Findings</h3>
+                        <div class="findings-list">
+                            <div class="finding critical">
+                                <span class="severity">CRITICAL</span>
+                                <span class="title">Missing HSTS Header</span>
+                            </div>
+                            <div class="finding high">
+                                <span class="severity">HIGH</span>
+                                <span class="title">Weak TLS Configuration</span>
+                            </div>
+                            <div class="finding medium">
+                                <span class="severity">MEDIUM</span>
+                                <span class="title">Missing CSP Header</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="demo-disclaimer">
+                <strong>⚠️ Legal Notice:</strong> This demo is simulated. Only scan targets you own or have written permission to test. Unauthorized scanning is illegal.
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What makes SufixShield Pro different?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We focus on verified findings, not signals. Every vulnerability we report is confirmed with evidence. This means fewer false positives and more actionable intelligence.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Is this legal? Will I get in trouble for scanning?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Only scan targets you own or have explicit written permission to test. Unauthorized security scanning is illegal in most jurisdictions. We recommend getting written consent before testing any domain you don't own.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What's included in the scanning process?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Standard scans include: attack surface discovery, TLS certificate analysis, security header verification, and basic vulnerability scanning. Pro and Enterprise plans include optional advanced integrations like nmap and nuclei.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How often are domains scanned?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Starter: Monthly. Pro: Weekly. Enterprise: Real-time continuous monitoring. You can also manually trigger scans at any time.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Can I integrate this with my CI/CD pipeline?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! Pro and Enterprise plans include full API access. You can integrate scanning into your deployment pipeline to catch security issues before going live.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What data do you collect?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We collect metadata about your domains, security configurations, and findings. We never store sensitive data or credentials. Your data is encrypted at rest and in transit.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Get Started Today</h2>
+            
+            <div class="contact-wrapper">
+                <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <textarea placeholder="Tell us about your security needs..." rows="4" required></textarea>
+                    <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+                </form>
+                
+                <div class="contact-info">
+                    <h3>Other Ways to Reach Us</h3>
+                    <p>Have a question? We'd love to help.</p>
+                    <a href="mailto:hello@sufixshield.pro" class="contact-link">hello@sufixshield.pro</a>
+                    <div class="social-links">
+                        <a href="https://twitter.com" target="_blank" title="Twitter/X">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2s9 5 20 5a9.5 9.5 0 00-9-5.5c4.75 2.25 7-7 7-7s1.1 1.1 1.1 1.1z"/>
+                            </svg>
                         </a>
-                        <div class="user-profile" onclick="toggleUserMenu()">
-                            <div class="avatar">👤</div>
-                            <span class="user-name" id="userName">User</span>
-                            <div class="dropdown-menu" id="userMenu">
-                                <a onclick="handleLogout()" class="logout-link">Logout</a>
-                            </div>
-                        </div>
+                        <a href="https://linkedin.com" target="_blank" title="LinkedIn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
+                                <circle cx="4" cy="4" r="2"/>
+                            </svg>
+                        </a>
+                        <a href="https://github.com" target="_blank" title="GitHub">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
 
-                <!-- Page Content -->
-                <div class="dashboard-content">
-                    <!-- Overview Page -->
-                    <div id="overview-page" class="page-content active">
-                        <div class="page-header">
-                            <h1>Dashboard Overview</h1>
-                            <p>Telegram ID: <strong id="userTelegramId"></strong></p>
-                        </div>
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
 
-                        <div class="stats-grid">
-                            <div class="stat-box">
-                                <div class="stat-header">
-                                    <span class="stat-label">Total Scans</span>
-                                    <span class="stat-icon">🔍</span>
-                                </div>
-                                <div class="stat-value" id="totalScans">0</div>
-                                <div class="stat-change">All time scans</div>
-                            </div>
-                            <div class="stat-box">
-                                <div class="stat-header">
-                                    <span class="stat-label">Vulnerabilities</span>
-                                    <span class="stat-icon">⚠️</span>
-                                </div>
-                                <div class="stat-value" id="totalVulns">0</div>
-                                <div class="stat-change">Total issues found</div>
-                            </div>
-                            <div class="stat-box">
-                                <div class="stat-header">
-                                    <span class="stat-label">Security Score</span>
-                                    <span class="stat-icon">🛡️</span>
-                                </div>
-                                <div class="stat-value" id="securityScore">--</div>
-                                <div class="stat-change">Average score</div>
-                            </div>
-                            <div class="stat-box">
-                                <div class="stat-header">
-                                    <span class="stat-label">Status</span>
-                                    <span class="stat-icon">✅</span>
-                                </div>
-                                <div class="stat-value" style="font-size: 20px;">Active</div>
-                                <div class="stat-change positive">Account verified</div>
-                            </div>
-                        </div>
-
-                        <div class="recent-scans">
-                            <h3>Recent Scans</h3>
-                            <table class="scans-table" id="scansTable">
-                                <thead>
-                                    <tr>
-                                        <th>Target</th>
-                                        <th>Status</th>
-                                        <th>Vulnerabilities</th>
-                                        <th>Score</th>
-                                        <th>Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="scansTableBody">
-                                    <tr>
-                                        <td colspan="5" style="text-align: center; color: var(--text-secondary);">
-                                            No scans yet. Start scanning via Telegram bot!
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- Scans Page -->
-                    <div id="scans-page" class="page-content">
-                        <div class="page-header">
-                            <h1>My Scans</h1>
-                            <p>All your security scans</p>
-                        </div>
-                        <div id="scansListContainer"></div>
-                    </div>
-
-                    <!-- Vulnerabilities Page -->
-                    <div id="vulnerabilities-page" class="page-content">
-                        <div class="page-header">
-                            <h1>Vulnerabilities</h1>
-                            <p>Detected security issues</p>
-                        </div>
-                        <div id="vulnsListContainer"></div>
-                    </div>
-
-                    <!-- Reports Page -->
-                    <div id="reports-page" class="page-content">
-                        <div class="page-header">
-                            <h1>Reports</h1>
-                            <p>Download your security reports</p>
-                        </div>
-                        <div id="reportsListContainer"></div>
-                    </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <p>&copy; 2026 SufixShield Pro. All rights reserved.</p>
                 </div>
-            </main>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Security</a>
+                </div>
+            </div>
         </div>
-    </div>
+    </footer>
 
-    <script>
-        // API Configuration
-        const API_URL = 'http://127.0.0.1:8000/api';
-        const BOT_USERNAME = 'suffix_cs_bot';
-
-        // Page Navigation
-        function switchToPage(page) {
-            document.getElementById('landingPage').style.display = page === 'landing' ? 'block' : 'none';
-            document.getElementById('loginPage').style.display = page === 'login' ? 'flex' : 'none';
-            document.getElementById('signupPage').style.display = page === 'signup' ? 'flex' : 'none';
-            document.getElementById('dashboardPage').style.display = page === 'dashboard' ? 'flex' : 'none';
-            window.scrollTo(0, 0);
-        }
-
-        function scrollToSection(sectionId) {
-            const element = document.getElementById(sectionId);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-
-        // Auth Functions
-        async function handleLogin(event) {
-            event.preventDefault();
-            const telegramId = document.getElementById('loginTelegramId').value;
-            const errorEl = document.getElementById('loginError');
-            errorEl.classList.remove('show');
-
-            try {
-                const response = await fetch(`${API_URL}/user/${telegramId}`);
-                const data = await response.json();
-
-                if (response.ok && data.activated) {
-                    localStorage.setItem('suffixsec_telegram_id', telegramId);
-                    localStorage.setItem('suffixsec_user', JSON.stringify(data));
-                    switchToPage('dashboard');
-                    loadDashboardData();
-                } else {
-                    errorEl.textContent = 'User not found or not activated. Please sign up first.';
-                    errorEl.classList.add('show');
-                }
-            } catch (error) {
-                errorEl.textContent = 'Connection error. Please try again.';
-                errorEl.classList.add('show');
-            }
-        }
-
-        async function handleSignup(event) {
-            event.preventDefault();
-            const name = document.getElementById('signupName').value;
-            const email = document.getElementById('signupEmail').value;
-            const telegramId = document.getElementById('signupTelegramId').value;
-            const activationKey = document.getElementById('signupActivationKey').value;
-            const password = document.getElementById('signupPassword').value;
-            const confirmPassword = document.getElementById('signupConfirmPassword').value;
-
-            const errorEl = document.getElementById('signupError');
-            const successEl = document.getElementById('signupSuccess');
-            errorEl.classList.remove('show');
-            successEl.classList.remove('show');
-
-            if (password !== confirmPassword) {
-                errorEl.textContent = 'Passwords do not match!';
-                errorEl.classList.add('show');
-                return;
-            }
-
-            try {
-                // التحقق من مفتاح التفعيل
-                const response = await fetch(`${API_URL}/activate`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        telegram_id: parseInt(telegramId),
-                        activation_key: activationKey,
-                        name: name,
-                        email: email
-                    })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    successEl.textContent = 'Account activated successfully! Redirecting to dashboard...';
-                    successEl.classList.add('show');
-
-                    localStorage.setItem('suffixsec_telegram_id', telegramId);
-                    localStorage.setItem('suffixsec_user', JSON.stringify({ telegram_id: telegramId, name, email }));
-
-                    setTimeout(() => {
-                        switchToPage('dashboard');
-                        loadDashboardData();
-                    }, 2000);
-                } else {
-                    errorEl.textContent = data.detail || 'Activation failed. Please check your activation key.';
-                    errorEl.classList.add('show');
-                }
-            } catch (error) {
-                errorEl.textContent = 'Connection error. Please try again.';
-                errorEl.classList.add('show');
-            }
-        }
-
-        function handleLogout() {
-            if (confirm('Are you sure you want to logout?')) {
-                localStorage.removeItem('suffixsec_telegram_id');
-                localStorage.removeItem('suffixsec_user');
-                switchToPage('landing');
-            }
-        }
-
-        // Dashboard Functions
-        let currentPage = 'overview';
-
-        function switchPage(event, pageName) {
-            event.preventDefault();
-
-            const currentPageEl = document.getElementById(currentPage + '-page');
-            if (currentPageEl) {
-                currentPageEl.classList.remove('active');
-            }
-
-            document.querySelectorAll('.nav-item').forEach((item) => {
-                item.classList.remove('active');
-            });
-
-            const newPageEl = document.getElementById(pageName + '-page');
-            if (newPageEl) {
-                newPageEl.classList.add('active');
-            }
-
-            event.target.closest('.nav-item')?.classList.add('active');
-
-            const titles = {
-                overview: 'Dashboard Overview',
-                scans: 'My Scans',
-                vulnerabilities: 'Vulnerabilities',
-                reports: 'Reports'
-            };
-
-            document.getElementById('pageTitle').textContent = titles[pageName] || 'Dashboard';
-            currentPage = pageName;
-
-            const sidebar = document.getElementById('sidebar');
-            if (sidebar && window.innerWidth <= 768) {
-                sidebar.classList.remove('active');
-            }
-
-            // تحميل البيانات حسب الصفحة
-            if (pageName === 'scans') loadScans();
-            if (pageName === 'vulnerabilities') loadVulnerabilities();
-            if (pageName === 'reports') loadReports();
-        }
-
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar?.classList.toggle('active');
-        }
-
-        function toggleUserMenu() {
-            const menu = document.getElementById('userMenu');
-            if (menu) {
-                menu.classList.toggle('show');
-            }
-        }
-
-        // تحميل بيانات الداشبورد من البوت
-        async function loadDashboardData() {
-            const telegramId = localStorage.getItem('suffixsec_telegram_id');
-            const user = JSON.parse(localStorage.getItem('suffixsec_user') || '{}');
-
-            if (!telegramId) {
-                switchToPage('landing');
-                return;
-            }
-
-            document.getElementById('userName').textContent = user.name || 'User';
-            document.getElementById('userTelegramId').textContent = telegramId;
-
-            try {
-                // جلب إحصائيات المستخدم
-                const response = await fetch(`${API_URL}/scans/${telegramId}`);
-                const data = await response.json();
-
-                if (response.ok) {
-                    document.getElementById('totalScans').textContent = data.total_scans || 0;
-                    document.getElementById('totalVulns').textContent = data.total_vulnerabilities || 0;
-                    document.getElementById('securityScore').textContent = data.avg_security_score || '--';
-
-                    // تحديث جدول الفحوصات
-                    if (data.recent_scans && data.recent_scans.length > 0) {
-                        const tbody = document.getElementById('scansTableBody');
-                        tbody.innerHTML = data.recent_scans.map(scan => `
-          <tr>
-            <td>${scan.target_url || 'N/A'}</td>
-            <td><span class="badge ${scan.status === 'completed' ? 'success' : 'warning'}">${scan.status}</span></td>
-            <td>${scan.vulnerabilities_count || 0}</td>
-            <td>${scan.security_score || '--'}</td>
-            <td>${new Date(scan.scan_date).toLocaleDateString()}</td>
-          </tr>
-        `).join('');
-                    }
-                }
-            } catch (error) {
-                console.error('Failed to load dashboard data:', error);
-            }
-        }
-
-        async function loadScans() {
-            const telegramId = localStorage.getItem('suffixsec_telegram_id');
-            const container = document.getElementById('scansListContainer');
-            container.innerHTML = '<p>Loading scans...</p>';
-
-            try {
-                const response = await fetch(`${API_URL}/scans/${telegramId}/all`);
-                const data = await response.json();
-
-                if (response.ok && data.scans) {
-                    container.innerHTML = data.scans.map(scan => `
-        <div class="stat-box" style="margin-bottom: 15px;">
-          <h4>${scan.target_url}</h4>
-          <p>Status: <span class="badge ${scan.status === 'completed' ? 'success' : 'warning'}">${scan.status}</span></p>
-          <p>Vulnerabilities: ${scan.vulnerabilities_count || 0}</p>
-          <p>Date: ${new Date(scan.scan_date).toLocaleString()}</p>
-        </div>
-      `).join('');
-                } else {
-                    container.innerHTML = '<p>No scans found.</p>';
-                }
-            } catch (error) {
-                container.innerHTML = '<p>Error loading scans.</p>';
-            }
-        }
-
-        async function loadVulnerabilities() {
-            const telegramId = localStorage.getItem('suffixsec_telegram_id');
-            const container = document.getElementById('vulnsListContainer');
-            container.innerHTML = '<p>Loading vulnerabilities...</p>';
-
-            try {
-                const response = await fetch(`${API_URL}/vulnerabilities/${telegramId}`);
-                const data = await response.json();
-
-                if (response.ok && data.vulnerabilities) {
-                    container.innerHTML = data.vulnerabilities.map(vuln => `
-        <div class="stat-box" style="margin-bottom: 15px; border-left: 4px solid ${vuln.severity === 'CRITICAL' ? '#ef4444' : vuln.severity === 'HIGH' ? '#f59e0b' : '#10b981'};">
-          <h4>${vuln.type}</h4>
-          <p><span class="badge ${vuln.severity === 'CRITICAL' ? 'danger' : vuln.severity === 'HIGH' ? 'warning' : 'success'}">${vuln.severity}</span></p>
-          <p>${vuln.description || 'No description'}</p>
-          <p><small>URL: ${vuln.url}</small></p>
-        </div>
-      `).join('');
-                } else {
-                    container.innerHTML = '<p>No vulnerabilities found.</p>';
-                }
-            } catch (error) {
-                container.innerHTML = '<p>Error loading vulnerabilities.</p>';
-            }
-        }
-
-        async function loadReports() {
-            const telegramId = localStorage.getItem('suffixsec_telegram_id');
-            const container = document.getElementById('reportsListContainer');
-            container.innerHTML = '<p>Loading reports...</p>';
-
-            try {
-                const response = await fetch(`${API_URL}/reports/${telegramId}`);
-                const data = await response.json();
-
-                if (response.ok && data.reports) {
-                    container.innerHTML = data.reports.map(report => `
-        <div class="stat-box" style="margin-bottom: 15px;">
-          <h4>Report - ${new Date(report.created_at).toLocaleDateString()}</h4>
-          <p>Scan: ${report.scan_url}</p>
-          <a href="${API_URL}/download-report/${report.id}" class="btn-primary" download>Download PDF</a>
-        </div>
-      `).join('');
-                } else {
-                    container.innerHTML = '<p>No reports found.</p>';
-                }
-            } catch (error) {
-                container.innerHTML = '<p>Error loading reports.</p>';
-            }
-        }
-
-        // Auto-refresh dashboard data every 30 seconds
-        setInterval(() => {
-            if (document.getElementById('dashboardPage').style.display === 'flex') {
-                loadDashboardData();
-            }
-        }, 30000);
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            // تحديث روابط البوت
-            const botUrl = `https://t.me/${BOT_USERNAME}`;
-            const botLinkHero = document.getElementById('botLinkHero');
-            const botLinkDash = document.getElementById('botLinkDash');
-            if (botLinkHero) botLinkHero.href = botUrl;
-            if (botLinkDash) botLinkDash.href = botUrl;
-
-            const telegramId = localStorage.getItem('suffixsec_telegram_id');
-            if (telegramId) {
-                switchToPage('dashboard');
-                loadDashboardData();
-            } else {
-                switchToPage('landing');
-            }
-        });
-    </script>
+    <script src="app.js"></script>
 </body>
-
 </html>
