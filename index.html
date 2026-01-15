@@ -1,232 +1,455 @@
-// SufixShield Pro - Main Application JavaScript
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SufixShield Pro - Evidence-First Website Security Scanning. Verified findings, not signals. Real security intelligence for your web assets.">
+    <meta name="theme-color" content="#0f172a">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="SufixShield Pro - Evidence-First Security Scanning">
+    <meta property="og:description" content="Verified findings, not signals. Real security intelligence for your web assets.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sufixshield.pro">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect fill='%2314b8a6' width='32' height='32' rx='8'/><path fill='white' d='M16 6c-5.5 0-10 4.5-10 10s4.5 10 10 10 10-4.5 10-10-4.5-10-10-10zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z'/></svg>">
+    
+    <link rel="stylesheet" href="styles.css">
+    <title>SufixShield Pro - Evidence-First Website Security Scanning</title>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+                        <rect x="4" y="4" width="24" height="24" rx="4" stroke="currentColor" stroke-width="2"/>
+                        <path d="M16 10v8M12 14h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <span>SufixShield Pro</span>
+                </div>
+                <nav class="nav-menu">
+                    <a href="#how-it-works">How It Works</a>
+                    <a href="#features">Features</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#faq">FAQ</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+                <button class="btn btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Started</button>
+            </div>
+        </div>
+    </header>
 
-// Navigation and routing
-const routes = {
-  "/": "home",
-  "/login": "login",
-  "/signup": "signup",
-  "/dashboard": "dashboard",
-  "/pricing": "pricing",
-  "/contact": "contact",
-}
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Evidence-First Website Security Scanning</h1>
+                <p class="hero-subtitle">Verified findings, not signals. Real security intelligence for your web assets. Know exactly what's exposed.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="scrollToSection('demo')">View Demo</button>
+                    <button class="btn btn-secondary" onclick="scrollToSection('pricing')">View Plans</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-function initRouter() {
-  window.addEventListener("popstate", handleRouteChange)
-  handleRouteChange()
-}
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle">Evidence-First Security Intelligence</p>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Scan Your Asset</h3>
+                    <p>Point us at your domain. We crawl your entire web presence and identify your attack surface.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Verify Evidence</h3>
+                    <p>Every finding is verified. We don't report signals - only confirmed vulnerabilities with proof.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Get Intelligence</h3>
+                    <p>Detailed reports with TLS verification, security headers, and optional advanced integrations.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3>Take Action</h3>
+                    <p>Prioritized remediation guidance. Fix what matters most to your security posture.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-function navigate(path) {
-  window.history.pushState({}, "", path)
-  handleRouteChange()
-}
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Powerful Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Attack Surface Inventory</h3>
+                    <p>Complete discovery of your web properties, subdomains, and exposed services.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✓</div>
+                    <h3>Verified Findings</h3>
+                    <p>Evidence-based reporting. Every vulnerability is confirmed, never a false positive.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>TLS Verification</h3>
+                    <p>Complete SSL/TLS certificate analysis and security validation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>Security Headers</h3>
+                    <p>Comprehensive security header detection and compliance checking.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔗</div>
+                    <h3>Optional Integrations</h3>
+                    <p>Advanced scanning with nmap, nuclei, and custom security tools.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Detailed Reports</h3>
+                    <p>Professional security reports with remediation guidance and prioritization.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Continuous Monitoring</h3>
+                    <p>Track security changes over time with automated recurring scans.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚙️</div>
+                    <h3>API Access</h3>
+                    <p>Integrate scanning into your CI/CD pipeline and automation workflows.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-function handleRouteChange() {
-  const path = window.location.pathname
-  const page = routes[path] || "home"
-  loadPage(page)
-}
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Simple, Transparent Pricing</h2>
+            
+            <!-- Billing Toggle -->
+            <div class="billing-toggle">
+                <button class="toggle-btn active" data-period="monthly">Monthly</button>
+                <button class="toggle-btn" data-period="yearly">Yearly <span class="save-badge">Save 2 months</span></button>
+            </div>
 
-function loadPage(page) {
-  document.querySelectorAll(".page").forEach((p) => p.classList.remove("active"))
-  const pageEl = document.getElementById(`${page}-page`)
-  if (pageEl) {
-    pageEl.classList.add("active")
-  }
-}
+            <!-- Pricing Cards -->
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Starter</h3>
+                    <div class="price"><span class="amount" data-monthly="19" data-yearly="228">$19</span><span class="period">/month</span></div>
+                    <ul class="pricing-features">
+                        <li>✓ Up to 5 domains</li>
+                        <li>✓ Monthly scans</li>
+                        <li>✓ Verified findings</li>
+                        <li>✓ Basic reports</li>
+                        <li>✗ API access</li>
+                        <li>✗ Priority support</li>
+                    </ul>
+                    <button class="btn btn-secondary btn-block">Get Started</button>
+                </div>
 
-// Billing toggle functionality
-function initBillingToggle() {
-  const toggleBtns = document.querySelectorAll(".toggle-btn")
-  toggleBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      toggleBtns.forEach((b) => b.classList.remove("active"))
-      btn.classList.add("active")
-      updatePricing(btn.dataset.period)
-    })
-  })
-}
+                <div class="pricing-card featured">
+                    <div class="badge">Most Popular</div>
+                    <h3>Pro</h3>
+                    <div class="price"><span class="amount" data-monthly="49" data-yearly="588">$49</span><span class="period">/month</span></div>
+                    <ul class="pricing-features">
+                        <li>✓ Unlimited domains</li>
+                        <li>✓ Weekly scans</li>
+                        <li>✓ Verified findings</li>
+                        <li>✓ Advanced reports</li>
+                        <li>✓ API access</li>
+                        <li>✓ Email support</li>
+                    </ul>
+                    <button class="btn btn-primary btn-block">Start Free Trial</button>
+                </div>
 
-function updatePricing(period) {
-  const amounts = document.querySelectorAll(".amount")
-  amounts.forEach((el) => {
-    const monthly = Number.parseFloat(el.dataset.monthly)
-    const yearly = Number.parseFloat(el.dataset.yearly)
-    if (period === "yearly") {
-      el.textContent = "$" + yearly
-    } else {
-      el.textContent = "$" + monthly
-    }
-  })
-}
+                <div class="pricing-card">
+                    <h3>Enterprise</h3>
+                    <div class="price"><span class="contact-text">Custom</span></div>
+                    <ul class="pricing-features">
+                        <li>✓ Everything in Pro</li>
+                        <li>✓ Real-time scanning</li>
+                        <li>✓ Custom integrations</li>
+                        <li>✓ Dedicated account manager</li>
+                        <li>✓ 99.9% SLA</li>
+                        <li>✓ Phone support</li>
+                    </ul>
+                    <button class="btn btn-secondary btn-block">Contact Sales</button>
+                </div>
+            </div>
 
-// Demo functionality
-function startDemo() {
-  const demoInput = document.getElementById("demoInput")
-  const domain = demoInput.value || "example.com"
-  const demoResults = document.getElementById("demoResults")
-  const progressFill = document.getElementById("progressFill")
-  const progressText = document.getElementById("progressText")
-  const findingsContainer = document.getElementById("findingsContainer")
+            <!-- Compare Plans Table -->
+            <div class="compare-table-wrapper">
+                <h3 class="compare-title">Compare Plans</h3>
+                <table class="compare-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Starter</th>
+                            <th>Pro</th>
+                            <th>Enterprise</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Domains</td>
+                            <td>5</td>
+                            <td>Unlimited</td>
+                            <td>Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td>Scan Frequency</td>
+                            <td>Monthly</td>
+                            <td>Weekly</td>
+                            <td>Real-time</td>
+                        </tr>
+                        <tr>
+                            <td>API Access</td>
+                            <td>✗</td>
+                            <td>✓</td>
+                            <td>✓</td>
+                        </tr>
+                        <tr>
+                            <td>Custom Integrations</td>
+                            <td>✗</td>
+                            <td>✗</td>
+                            <td>✓</td>
+                        </tr>
+                        <tr>
+                            <td>Priority Support</td>
+                            <td>✗</td>
+                            <td>✓</td>
+                            <td>✓</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
 
-  demoResults.style.display = "block"
-  findingsContainer.style.display = "none"
-  progressFill.style.width = "0%"
-  progressText.textContent = "Initializing scan..."
+    <!-- Trust Section -->
+    <section class="trust">
+        <div class="container">
+            <h2 class="section-title">Trusted by Security Teams</h2>
+            <div class="trust-grid">
+                <div class="trust-card">
+                    <div class="trust-stat">10K+</div>
+                    <div class="trust-label">Domains Scanned</div>
+                </div>
+                <div class="trust-card">
+                    <div class="trust-stat">99.9%</div>
+                    <div class="trust-label">Uptime SLA</div>
+                </div>
+                <div class="trust-card">
+                    <div class="trust-stat">0</div>
+                    <div class="trust-label">False Positives</div>
+                </div>
+                <div class="trust-card">
+                    <div class="trust-stat">24/7</div>
+                    <div class="trust-label">Scanning Active</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  let progress = 0
-  const progressInterval = setInterval(() => {
-    progress += Math.random() * 30
-    if (progress > 100) progress = 100
-    progressFill.style.width = progress + "%"
+    <!-- Demo Section -->
+    <section class="demo" id="demo">
+        <div class="container">
+            <h2 class="section-title">Live Demo (Simulated)</h2>
+            <p class="section-subtitle">See SufixShield Pro in action</p>
+            
+            <div class="demo-container">
+                <div class="demo-input">
+                    <input type="text" id="demoInput" placeholder="example.com" value="example.com">
+                    <button class="btn btn-primary" onclick="startDemo()">Scan Domain</button>
+                </div>
+                
+                <div id="demoResults" class="demo-results" style="display:none;">
+                    <div class="demo-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <p id="progressText">Initializing scan...</p>
+                    </div>
+                    
+                    <div id="findingsContainer" style="display:none;">
+                        <h3>Findings</h3>
+                        <div class="findings-list">
+                            <div class="finding critical">
+                                <span class="severity">CRITICAL</span>
+                                <span class="title">Missing HSTS Header</span>
+                            </div>
+                            <div class="finding high">
+                                <span class="severity">HIGH</span>
+                                <span class="title">Weak TLS Configuration</span>
+                            </div>
+                            <div class="finding medium">
+                                <span class="severity">MEDIUM</span>
+                                <span class="title">Missing CSP Header</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="demo-disclaimer">
+                <strong>⚠️ Legal Notice:</strong> This demo is simulated. Only scan targets you own or have written permission to test. Unauthorized scanning is illegal.
+            </div>
+        </div>
+    </section>
 
-    if (progress < 30) {
-      progressText.textContent = "Scanning " + domain + "..."
-    } else if (progress < 60) {
-      progressText.textContent = "Analyzing TLS certificates..."
-    } else if (progress < 90) {
-      progressText.textContent = "Checking security headers..."
-    } else {
-      progressText.textContent = "Generating findings..."
-    }
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What makes SufixShield Pro different?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We focus on verified findings, not signals. Every vulnerability we report is confirmed with evidence. This means fewer false positives and more actionable intelligence.</p>
+                    </div>
+                </div>
 
-    if (progress >= 100) {
-      clearInterval(progressInterval)
-      setTimeout(() => {
-        findingsContainer.style.display = "block"
-      }, 500)
-    }
-  }, 300)
-}
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Is this legal? Will I get in trouble for scanning?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Only scan targets you own or have explicit written permission to test. Unauthorized security scanning is illegal in most jurisdictions. We recommend getting written consent before testing any domain you don't own.</p>
+                    </div>
+                </div>
 
-// FAQ accordion functionality
-function toggleFAQ(element) {
-  const faqItem = element.parentElement
-  const isActive = faqItem.classList.contains("active")
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What's included in the scanning process?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Standard scans include: attack surface discovery, TLS certificate analysis, security header verification, and basic vulnerability scanning. Pro and Enterprise plans include optional advanced integrations like nmap and nuclei.</p>
+                    </div>
+                </div>
 
-  // Close all other FAQ items
-  document.querySelectorAll(".faq-item").forEach((item) => {
-    if (item !== faqItem) {
-      item.classList.remove("active")
-    }
-  })
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How often are domains scanned?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Starter: Monthly. Pro: Weekly. Enterprise: Real-time continuous monitoring. You can also manually trigger scans at any time.</p>
+                    </div>
+                </div>
 
-  // Toggle current item
-  faqItem.classList.toggle("active")
-}
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Can I integrate this with my CI/CD pipeline?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! Pro and Enterprise plans include full API access. You can integrate scanning into your deployment pipeline to catch security issues before going live.</p>
+                    </div>
+                </div>
 
-function initFAQ() {
-  const faqQuestions = document.querySelectorAll(".faq-question")
-  faqQuestions.forEach((question) => {
-    question.addEventListener("click", function () {
-      toggleFAQ(this)
-    })
-  })
-}
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What data do you collect?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>We collect metadata about your domains, security configurations, and findings. We never store sensitive data or credentials. Your data is encrypted at rest and in transit.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-// Form handling
-function handleSubmit(event) {
-  event.preventDefault()
-  const form = event.target
-  const formData = new FormData(form)
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Get Started Today</h2>
+            
+            <div class="contact-wrapper">
+                <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <textarea placeholder="Tell us about your security needs..." rows="4" required></textarea>
+                    <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+                </form>
+                
+                <div class="contact-info">
+                    <h3>Other Ways to Reach Us</h3>
+                    <p>Have a question? We'd love to help.</p>
+                    <a href="mailto:hello@sufixshield.pro" class="contact-link">hello@sufixshield.pro</a>
+                    <div class="social-links">
+                        <a href="https://twitter.com" target="_blank" class="social-link">Twitter</a>
+                        <a href="https://linkedin.com" target="_blank" class="social-link">LinkedIn</a>
+                        <a href="https://github.com" target="_blank" class="social-link">GitHub</a>
+                        <a href="https://instagram.com" target="_blank" class="social-link">Instagram</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  // Simulate form submission
-  showToast("Message sent successfully! We'll get back to you soon.")
-  form.reset()
-}
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>SufixShield Pro</h3>
+                    <p>Evidence-first website security scanning for real security intelligence.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Status</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 SufixShield Pro. All rights reserved. Only scan targets you own or have written permission to test.</p>
+            </div>
+        </div>
+    </footer>
 
-// Toast notification
-function showToast(message) {
-  const toast = document.getElementById("toast")
-  toast.textContent = message
-  toast.classList.add("show")
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
 
-  setTimeout(() => {
-    toast.classList.remove("show")
-  }, 3000)
-}
-
-// Smooth scrolling
-function scrollToSection(id) {
-  const element = document.getElementById(id)
-  if (element) {
-    element.scrollIntoView({ behavior: "smooth" })
-  }
-}
-
-// Header scroll effect
-function initHeader() {
-  const header = document.getElementById("header")
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 50) {
-      header.style.boxShadow = "0 10px 40px rgba(0, 0, 0, 0.2)"
-    } else {
-      header.style.boxShadow = "none"
-    }
-  })
-}
-
-// Intersection Observer for scroll animations
-function initScrollAnimations() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.style.animation = "fadeIn 0.6s ease forwards"
-        observer.unobserve(entry.target)
-      }
-    })
-  })
-
-  document.querySelectorAll(".feature-card, .step-card, .pricing-card, .trust-card").forEach((el) => {
-    observer.observe(el)
-  })
-}
-
-// PWA installation prompt
-function initPWA() {
-  let deferredPrompt
-
-  window.addEventListener("beforeinstallprompt", (e) => {
-    e.preventDefault()
-    deferredPrompt = e
-  })
-
-  window.addEventListener("appinstalled", () => {
-    console.log("PWA installed successfully")
-  })
-}
-
-// Initialize everything on load
-document.addEventListener("DOMContentLoaded", () => {
-  initRouter()
-  initBillingToggle()
-  initFAQ()
-  initHeader()
-  initScrollAnimations()
-  initPWA()
-
-  // Set up form submission
-  const contactForm = document.getElementById("contactForm")
-  if (contactForm) {
-    contactForm.addEventListener("submit", handleSubmit)
-  }
-
-  // Set up demo button
-  const demoButton = document.querySelector('[onclick="startDemo()"]')
-  if (demoButton) {
-    demoButton.addEventListener("click", startDemo)
-  }
-})
-
-// Scroll event listener for smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-  anchor.addEventListener("click", function (e) {
-    const href = this.getAttribute("href")
-    if (href !== "#") {
-      e.preventDefault()
-      const target = document.querySelector(href)
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth" })
-      }
-    }
-  })
-})
+    <script src="app.js"></script>
+</body>
+</html>
