@@ -99,12 +99,26 @@ function startDemo() {
 }
 
 // FAQ accordion functionality
+function toggleFAQ(element) {
+  const faqItem = element.parentElement
+  const isActive = faqItem.classList.contains("active")
+
+  // Close all other FAQ items
+  document.querySelectorAll(".faq-item").forEach((item) => {
+    if (item !== faqItem) {
+      item.classList.remove("active")
+    }
+  })
+
+  // Toggle current item
+  faqItem.classList.toggle("active")
+}
+
 function initFAQ() {
-  const faqItems = document.querySelectorAll(".faq-item")
-  faqItems.forEach((item) => {
-    const question = item.querySelector(".faq-question")
-    question.addEventListener("click", () => {
-      item.classList.toggle("active")
+  const faqQuestions = document.querySelectorAll(".faq-question")
+  faqQuestions.forEach((question) => {
+    question.addEventListener("click", function () {
+      toggleFAQ(this)
     })
   })
 }
