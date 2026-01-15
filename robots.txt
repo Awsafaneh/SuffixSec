@@ -1,6 +1,5 @@
-# SufixShield Pro - robots.txt
 User-agent: *
 Allow: /
-Disallow: /admin/
-Disallow: /api/
-Sitemap: https://sufixshield.pro/sitemap.xml
+Disallow: /admin
+
+Sitemap: /sitemap.xml
